@@ -1,2 +1,2 @@
 # Aplicaciones-Gratis.github.io
-<a href="https://aplicaciones-gratis.github.io/Chat-100.html">pad weg</a>
+<a href="https://aplicaciones-gratis.github.io/Chat-100.html">Pagina web</a>
