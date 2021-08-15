@@ -18,7 +18,7 @@
 	<label style="font-size: 15px;margin-left: 10px;">Confirma la contraseña:</label><br>
 	<input type="password" id="passconfircre" class="form-control" style="margin-left: 10px;outline: none;"><br>
 	<button onclick="register()" style="margin-bottom: -45px;cursor: pointer;background-color: #464749;color: #FEFEFE;border: none;margin-top:5px;margin-left:10px;width: 175px; height:30px;">Crear cuenta</button>
-	</form>
+	</form><br>
 	<button id="btnAcced" class="m3nud3s-titulo" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:32px;">Iniciar sección</button>
 	<form class="m3nud3s-content" style="display:none;">
 	<br>
@@ -218,14 +218,24 @@
 			</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-$(".m3nud3s-titulo").click(function(){
+$("#btnSuscribirse").click(function(){
     var contenido=$(this).next(".m3nud3s-content");    
    if(contenido.css("display")=="none"){  
       contenido.slideDown(150);         
       $(this).addClass("open");
+      $("#btnAcced").css("display","none");
      }else{        
       contenido.slideUp(150);
-      $(this).removeClass("open");}});
+      $(this).removeClass("open");$("#btnAcced").css("display","");}});
+$("#btnAcced").click(function(){
+    var contenido=$(this).next(".m3nud3s-content");    
+   if(contenido.css("display")=="none"){  
+      contenido.slideDown(150);         
+      $(this).addClass("open");
+      $("#btnSuscribirse").css("display","none");
+     }else{        
+      contenido.slideUp(150);
+      $(this).removeClass("open");$("#btnSuscribirse").css("display","");}});
 </script>
 <style>
 #sidebar {
