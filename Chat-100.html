@@ -60,6 +60,18 @@
 			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
 			<script>
+navegar=navigator.userAgent;
+moes=["Mobile","iPhone","iPod","BlackBerry","Opera Mini","Sony","MOT","Nokia","samsung"];
+detctor=0;
+for (i in moes) {
+   comprueo=navegar.indexOf(moes[i]); 
+   if (comprueo>-1) { 
+      detctor=1;}}
+if (detctor==1) {
+   // si es un celular
+}
+
+
 			var mover=0;
 			var firebaseConfig = {
 			    apiKey: "AIzaSyBaWYB5WNU0n4rXwqwHyWWOz_WzS5bBXeg",
@@ -137,7 +149,16 @@
 				var mensaje = txtMensaje.value.trim();
 				if (Object.entries(mensaje).length === 0) {
 				}else{
-				document.getElementById("btnEnviar").click();}}}}
+				navegador=navigator.userAgent;
+				moviles=["Mobile","iPhone","iPod","BlackBerry","Opera Mini","Sony","MOT","Nokia","samsung"];
+				detector=0;
+				for (i in moviles) {
+				   compruebo=navegador.indexOf(moviles[i]); 
+				if (compruebo>-1) { 
+				      detector=1;}}
+				if (detector==1) {}else{
+				document.getElementById("btnEnviar").click();
+				}}}}}
 				function hecv(cha){
 				firebase.database().ref().child('chat/'+cha).remove();}
 				var textarea = document.querySelector('textarea');
