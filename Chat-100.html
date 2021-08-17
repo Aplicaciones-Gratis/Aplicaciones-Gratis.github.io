@@ -60,18 +60,16 @@
 			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
 			<script>
-navegar=navigator.userAgent;
-moes=["Mobile","iPhone","iPod","BlackBerry","Opera Mini","Sony","MOT","Nokia","samsung"];
-detctor=0;
-for (i in moes) {
-   comprueo=navegar.indexOf(moes[i]); 
-   if (comprueo>-1) { 
-      detctor=1;}}
-if (detctor==1) {
-   // si es un celular
-}
-
-
+			navegar=navigator.userAgent;
+			moes=["Mobile","iPhone","iPod","BlackBerry","Opera Mini","Sony","MOT","Nokia","samsung"];
+			detctor=0;
+			for (i in moes) {
+			   comprueo=navegar.indexOf(moes[i]); 
+			   if (comprueo>-1) { 
+			      detctor=1;}}
+			if (detctor==1) {
+			  var el = document.body
+			  el.style.cssText +='zoom: 3;'}
 			var mover=0;
 			var firebaseConfig = {
 			    apiKey: "AIzaSyBaWYB5WNU0n4rXwqwHyWWOz_WzS5bBXeg",
