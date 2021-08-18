@@ -112,7 +112,7 @@
 				var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
 				firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha});
 				txtMensaje.value="";document.getElementById("button4bajo").click();
-				if (tamale=16) {document.getElementById("mensaje").focus();}else{document.getElementById("userr").focus();}
+				if (tamale=16) {document.getElementById("mensaje").focus();}else{document.getElementById("mensaje").focus();document.getElementById("button4bajo").click();}
 			var el = document.getElementById("mensaje");
   			setTimeout(function(){
   			el.style.cssText +='height:auto;'
