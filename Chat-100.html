@@ -114,7 +114,7 @@
   			setTimeout(function(){
   			el.style.cssText +='height:auto;'
     		el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});
-    		setTimeout("document.getElementById('button4bajo').click();",2)
+    		document.getElementById("button4bajo").click();
 			  });}}}};
 				firebase.database().ref().child('chat')
 				.on('value',function(snapshot) {
