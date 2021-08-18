@@ -248,12 +248,14 @@
 sessionStorage.setItem("anchoInicial", window.innerWidth);
 sessionStorage.setItem("altoInicial",window.innerHeight);
 $(window).on("resize", function() {
+    clearTimeout($.data(this, 'resizeTimer'));
+    $.data(this, 'resizeTimer', setTimeout(function() {
 anchoInicial = sessionStorage.getItem("anchoInicial");
 altoInicial = sessionStorage.getItem("altoInicial");
 if ( window.innerHeight != altoInicial && window.innerWidth != anchoInicial ) {
-$('#button4bajo').click();
-alert("hola");
-}});
+document.getElementById("button4bajo").click();
+}}, 200));
+});
 $("#btnSuscribirse").click(function(){
     var contenido=$(this).next(".m3nud3s-content");    
    if(contenido.css("display")=="none"){  
