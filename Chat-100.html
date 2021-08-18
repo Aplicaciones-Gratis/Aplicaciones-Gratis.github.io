@@ -33,7 +33,7 @@
 	</div>
 </head>
 	<body>
-		<div class="toggle-btn"><span>&#9776</span></div>
+		<div class="toggle-btn" id='toggle-bt'><span>&#9776</span></div>
 		<div id="sidebar">
       	<ul>
       	<img style="border-radius: 50%;margin-left: 20px;background-color: #464749;border: none;margin-top: 50px;margin-right: 5px; width: 165px; height:165px;" src="https://zoom.us/docs/image/new/chat/icon-organize.png"></img>
@@ -60,6 +60,7 @@
 			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
 			<script>
+			var tamale=16;
 			navegar=navigator.userAgent;
 			moes=["Mobile","iPhone","iPod","BlackBerry","Opera Mini","Sony","MOT","Nokia","samsung"];
 			detctor=0;
@@ -68,8 +69,18 @@
 			   if (comprueo>-1) { 
 			      detctor=1;}}
 			if (detctor==1) {
-			  var el = document.body
-			  el.style.cssText +='zoom: 3;'}
+			  var el = document.body;
+			   el.style.cssText +='zoom: 3;';
+			  var chet =document.getElementById('div14');
+			   chet.style.cssText='width: 95%;margin: auto;';
+			  var chatUL=document.getElementById('chatUL');
+			  chatUL.style.cssText+='height: 22vh;';
+			  var tooglebt=document.getElementById('toggle-bt');
+			  tooglebt.style.cssText+='position: relative;';
+			  var imensaje = document.getElementById('mensaje');
+			  imensaje.style.cssText+='font-size: 8px;min-width: 83%;width: 83%;';
+			  tamale=8;
+			}
 			var mover=0;
 			var firebaseConfig = {
 			    apiKey: "AIzaSyBaWYB5WNU0n4rXwqwHyWWOz_WzS5bBXeg",
@@ -100,8 +111,9 @@
 				var mes=(dia.getMonth() + 1)
 				var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
 				firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha});
-				txtMensaje.value="";document.getElementById("button4bajo").click();document.getElementById("mensaje").focus();
-			  var el = document.getElementById("mensaje");
+				txtMensaje.value="";document.getElementById("button4bajo").click();
+				if (tamale=16) {document.getElementById("mensaje").focus();}
+			var el = document.getElementById("mensaje");
   			setTimeout(function(){
   			el.style.cssText +='height:auto;'
     		el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});
@@ -123,6 +135,7 @@
 				const cols = document.querySelectorAll('.dos');
 				[].forEach.call(cols, (e)=>{
 				 console.log(e);
+				 e.style.cssText+='font-size:'+tamale+'px;';
 				 e.style.cssText += 'height:' + (e.scrollHeight+4) + 'px;';});
 				if (mover2>mover) {
 				document.getElementById("button4bajo").click();
