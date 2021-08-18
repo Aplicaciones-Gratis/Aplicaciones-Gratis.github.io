@@ -3,9 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Chat-100</title>
-	<div id="contenedor_carga">
-	<div id="carga"></div>
-	</div>
 	<div id="m3nud3s-container" style="display: flex;justify-content: center;align-items: center;background-color: #202020;height: 100%;width: 100%;position: fixed;z-index: 999;">
 	<div style="margin: auto;width: 200px;">
 	<button id="btnSuscribirse" class="m3nud3s-titulo" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:32px;">Registrar</button>
@@ -112,7 +109,7 @@
 				var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
 				firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha});
 				txtMensaje.value="";document.getElementById("button4bajo").click();
-				if (tamale=16) {document.getElementById("mensaje").focus();}else{document.getElementById("mensaje").focus();document.getElementById("button4bajo").click();}
+				document.getElementById("mensaje").focus();
 			var el = document.getElementById("mensaje");
   			setTimeout(function(){
   			el.style.cssText +='height:auto;'
@@ -136,6 +133,7 @@
 				[].forEach.call(cols, (e)=>{
 				 console.log(e);
 				 e.style.cssText+='font-size:'+tamale+'px;';
+				 e.style.cssText +='height:auto;'
 				 e.style.cssText += 'height:' + (e.scrollHeight+4) + 'px;';});
 				if (mover2>mover) {
 				document.getElementById("button4bajo").click();
@@ -144,10 +142,6 @@
 				mover=mover2;
 				}
 				console.clear();});
-				window.onload = function (){
-				var contenedor = document.getElementById('contenedor_carga');
-				contenedor.style.visibility = 'hidden';
-				contenedor.style.opacity ='0';}
 				 function borrar(){
 				 	if (confirm("¿Está seguro de que desea eliminar el chat?") == true) {
        				firebase.database().ref().child('chat').remove();}}
@@ -185,6 +179,7 @@
 				window.addEventListener('resize',function(event){
 				var cols = document.querySelectorAll('.dos');
 				[].forEach.call(cols, (e)=>{
+				 e.style.cssText+='font-size:'+tamale+'px;';
 				e.style.cssText +='height:auto;'
 				e.style.cssText += 'height:' + (e.scrollHeight+4) + 'px;';});
 				});
@@ -250,6 +245,17 @@
 			</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
+sessionStorage.setItem("anchoInicial", window.innerWidth);
+sessionStorage.setItem("altoInicial",window.innerHeight);
+$(window).on("resize", function() {
+anchoInicial = sessionStorage.getItem("anchoInicial");
+altoInicial = sessionStorage.getItem("altoInicial");
+if ( window.innerHeight != altoInicial && window.innerWidth != anchoInicial ) {
+} else {
+$('#button4bajo').click();
+}});
+
+
 $("#btnSuscribirse").click(function(){
     var contenido=$(this).next(".m3nud3s-content");    
    if(contenido.css("display")=="none"){  
@@ -278,6 +284,8 @@ $("#btnAcced").click(function(){
   left: -200px;
   transition: all 150ms linear;
   z-index: 100;
+  top: 0;
+  bottom: 0;
 }
 #sidebar.active {
   left: 0px;
@@ -321,6 +329,7 @@ background-color: #575758;
   left: 10px;
   top: 15px;
   cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 .toggle-btn span {
   display: block;
@@ -334,33 +343,6 @@ padding: 0;
 -webkit-box-sizing: border-box;
 -moz-box-sizing: border-box;
 box-sizing: border-box;
-}
-#contenedor_carga{
-background-color: rgb(99, 98, 98, 0.5);
-height: 100%;
-width: 100%;
-position: fixed;
--webkit-transition: all 1s ease;
--o-transition:  all 1s ease;
-transition: all 1s ease;
-z-index: 10000;
-}
-#carga{
-	border: 15px solid #FFFFFF;
-	border-top-color: #1D1D1D;
-	border-top-style: groove;
-	height: 100px;
-	width: 100px;
-	border-radius: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	margin: auto;
--webkit-animation: girar 1.5s linear infinite;
--o-animation:  girar 1.5s linear infinite;
-animation: girar 1.5s linear infinite;
 }
 @keyframes girar{
 	from {transform: rotate(0deg);}
@@ -408,8 +390,6 @@ outline: none;
 width: 75%;
 }
 #chatUL .dos {
-font-size: 16px;
-line-height: 16px;
 width: 95%;
 font-family: sans-serif;
 }
@@ -426,7 +406,6 @@ body{
 	background: #202020;
 	color: #FEFEFE;
 	font-family:sans-serif;
-	font-size: 16px;
 	line-height: 22px;
 	text-align: left;
 	position: relative;
