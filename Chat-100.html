@@ -114,6 +114,7 @@
   			el.style.cssText +='height:auto;'
     		el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});
     		document.getElementById("button4bajo").click();
+    		if (detctor==1){}else{document.getElementById("mensaje").focus();}
 			  });}}}};
 				firebase.database().ref().child('chat')
 				.on('value',function(snapshot) {
