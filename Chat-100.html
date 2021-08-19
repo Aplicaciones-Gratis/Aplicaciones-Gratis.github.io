@@ -35,6 +35,7 @@
       	<ul>
       	<img style="border-radius: 50%;margin-left: 20px;background-color: #464749;border: none;margin-top: 50px;margin-right: 5px; width: 165px; height:165px;" src="https://zoom.us/docs/image/new/chat/icon-organize.png"></img>
        <button type="button" id="btnBorrar" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:35px;" onclick="borrar()">Borrar toda la conversacion</button>
+       <button type="button" id="btnCerarse" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:30px;" onclick="salirr()">Cerrar Sesion</button>
      	</ul>
     	</div>
 		<div id="div14">
@@ -90,32 +91,28 @@
 			};
 			  firebase.initializeApp(firebaseConfig);
 			  firebase.analytics();
-			  var txtNombre =document.getElementById('nombre');
 			  var txtMensaje =document.getElementById('mensaje');
 			  var chatUL =document.getElementById('chatUL');
 			  function clicado(){
-				var nombre = txtNombre.value;
 				var mensaje = txtMensaje.value;
 				if (Object.entries(mensaje.trim()).length === 0) {
 				} else {
-				if (Object.entries(nombre.trim()).length === 0) {
-					alert("Inicia sesion para poder enviar mensajes");
-				} else {
-					if (document.getElementById("conin").value.length===0) {
-					} else {
-				firebase.auth().signInWithEmailAndPassword(nombre, document.getElementById("conin").value).then((userCredential) => {
-				var dia = new Date();
-				var mes=(dia.getMonth() + 1)
-				var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
-				firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha});
-				txtMensaje.value="";document.getElementById("button4bajo").click();
+			const user = firebase.auth().currentUser;
+			if (user) {
+			var nombre = user.email;
+			var dia = new Date();
+			var mes=(dia.getMonth() + 1)
+			var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
+			firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha});
+			txtMensaje.value="";document.getElementById("button4bajo").click();
 			var el = document.getElementById("mensaje");
   			setTimeout(function(){
   			el.style.cssText +='height:auto;'
     		el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});
     		document.getElementById("button4bajo").click();
     		if (detctor==1){}else{document.getElementById("mensaje").focus();}
-			  });}}}};
+			}else{alert("Inicia sesion para poder enviar mensajes");}
+			}};
 				firebase.database().ref().child('chat')
 				.on('value',function(snapshot) {
 				var mover2=0;
@@ -194,11 +191,10 @@
 				}else{
 				firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
 			    var user = userCredential.user;
-			    document.getElementById("conin").value=password;
 			    var txtNombre =document.getElementById('nombre');
 			    var arreg =document.getElementById('arreg');
 			    var quit=document.getElementById('m3nud3s-container')
-			    txtNombre.value=email;
+			    txtNombre.value="Bienvenido: "+email;
 			    document.getElementById("pass").value="";
 			    txtNombre.style.cssText+="display:inline;"
 			    arreg.style.cssText+="display:none;"
@@ -223,8 +219,7 @@
    		    var user = userCredential.user;
    		    alert("Has sido registrado correctamente");
    		    var txtNombre =document.getElementById('nombre');
-			    txtNombre.value=emal;
-			    document.getElementById("conin").value=passord;
+			    txtNombre.value="Bienvenido: "+emal;
 			    var quit=document.getElementById('m3nud3s-container');
 			    document.getElementById("passcre").value="";
 			    document.getElementById("passconfircre").value="";
@@ -243,6 +238,32 @@
   		function mostrarContrase(){
       var tipo = document.getElementById("pass");
       if(tipo.type == "password"){tipo.type = "text";}else{tipo.type = "password";}}
+      function salirr() {
+      	firebase.auth().signOut().then(function(){}).catch(function(){})
+      }
+  firebase.auth().onAuthStateChanged(function(user) {
+ if (user){
+			    document.getElementById("conin").value=user.uid;
+			    var txtNombre =document.getElementById('nombre');
+			    var arreg =document.getElementById('arreg');
+			    var quit=document.getElementById('m3nud3s-container');
+			    txtNombre.value="Bienvenido: "+user.email;
+			    document.getElementById("pass").value="";
+			    txtNombre.style.cssText+="display:inline;"
+			    arreg.style.cssText+="display:none;"
+			    quit.style.cssText+="display:none;"
+ }else{
+ 				document.getElementById("conin").value="";
+			    var txtNombre =document.getElementById('nombre');
+			    var arreg =document.getElementById('arreg');
+			    var quit=document.getElementById('m3nud3s-container')
+			    txtNombre.value="";
+			    document.getElementById("pass").value="";
+			    txtNombre.style.cssText+="display:none;"
+			    arreg.style.cssText+="display: revert;"
+			    quit.style.cssText+="display:flex;"
+ }
+});
 			</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
