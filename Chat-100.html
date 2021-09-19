@@ -1,270 +1,389 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
-	<meta charset="UTF-8">
-	<title>Chat-100</title>
-	<div id="m3nud3s-container" style="display: flex;justify-content: center;align-items: center;background-color: #202020;height: 100%;width: 100%;position: fixed;z-index: 999;">
-	<div style="margin: auto;width: 200px;">
-	<button id="btnAcced" class="m3nud3s-titulo" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:32px;">Iniciar sección</button>
-	<div class="m3nud3s-content" style="display:none;">
-	<br>
-	<label style="font-size: 15px;margin-left: 10px;">Correo electronico:</label><br>
-	<input type="text" autocomplete="true" id="userr" class="form-control" style="margin-left: 10px;outline: none;"><br>
-	<label style="font-size: 15px;margin-left: 10px;">Contraseña:</label><br>
-	<input type="password" id="pass" class="form-control" style="margin-left: 10px;outline: none;"><br>
-	<input type="checkbox" style="margin-top: 3px;margin-left: 10px;" onclick="mostrarContrase()"></input><label style="font-size: 15px;margin-left: 8px;">Mostrar contraseña</label><br>
-	<button onclick="acceder()" style="margin-bottom: -45px;cursor: pointer;background-color: #464749;color: #FEFEFE;border: none;margin-top:5px;margin-left:10px;width: 175px; height:30px;">Acceder</button>
-	</div><br>
-	<button id="btnSuscribirse" class="m3nud3s-titulo" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:32px;">Registrar</button>
-	<div class="m3nud3s-content" style="display:none;">
-	<br>
-	<label style="font-size: 15px;margin-left: 10px;">Correo electronico:</label><br>
-	<input id="userrcre" autocomplete="off" style="margin-left: 10px;outline: none;"><br>
-	<label style="font-size: 15px;margin-left: 10px;">Contraseña:</label><br>
-	<input id="passcre" autocomplete="off" style="margin-left: 10px;outline: none;"><br>
-	<label style="font-size: 15px;margin-left: 10px;">Confirma la contraseña:</label><br>
-	<input id="passconfircre" autocomplete="off" style="margin-left: 10px;outline: none;"><br>
-	<button onclick="register()" style="margin-bottom: -45px;cursor: pointer;background-color: #464749;color: #FEFEFE;border: none;margin-top:5px;margin-left:10px;width: 175px; height:30px;">Crear cuenta</button>
-	</div>	
-	</div>
-	</div>
-</head>
-	<body>
-		<div class="toggle-btn" id='toggle-bt'><span>&#9776</span></div>
-		<div id="sidebar">
-      	<ul>
-      	<img style="border-radius: 50%;margin-left: 20px;background-color: #464749;border: none;margin-top: 50px;margin-right: 5px; width: 165px; height:165px;" src="https://zoom.us/docs/image/new/chat/icon-organize.png"></img>
-       <button type="button" id="btnBorrar" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:35px;" onclick="borrar()">Borrar toda la conversacion</button>
-       <button type="button" id="btnCerarse" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:30px;" onclick="salirr()">Cerrar Sesion</button>
-     	</ul>
-    	</div>
-		<div id="div14">
-			<br>
-			<ul id="chatUL">
-				Cargando..
-			</ul>
-				<a id="button4bajo" href="#com"><div style="margin-top:3px;margin-bottom: 3px;background:#464749;display:flex;align-items:center;justify-content:center;width:42px;height:42px;cursor:pointer;border-radius:50%;float:right; opacity:0.9;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20"><path fill="#FFFFFF" d="M3.8 6.7l5.7 5.7 5.7-5.7 1.6 1.6-7.3 7.2-7.3-7.2 1.6-1.6z"></path></svg></div></a>
-			<form>
-			<input readonly="readonly" type="text" id ="nombre" style="display: none;cursor: default;width: 100%;max-width: 190px;border: none;background-color: #202020;font-family: sans-serif;color: #FFFFFF;font-size: 15px;outline: none;margin-top: 15px;margin-bottom: 13px;"><br id="arreg"><br>
-			<input readonly="readonly" type="text" id ="conin" style="display: none;cursor: default;width: 100%;max-width: 190px;border: none;background-color: #202020;font-family: sans-serif;color: #FFFFFF;font-size: 15px;outline: none;margin-top: 15px;margin-bottom: 13px;">
-			<textarea placeholder="Escribe un mensaje" onkeyup="validar(event)" name="mensaje" id="mensaje" style="margin-top: 22px;font-family: sans-serif; border-color: white; outline: none; width: 95%; height: 39px; font-size: 15px;"></textarea>
-			<button type="button" id="btnEnviar" style="margin-top: 20px;" onclick="clicado()"><svg style="margin-top:6px;cursor: pointer;margin-left: 5px;" fill=#FEFEFE xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 535.5 535.5">
-			<polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"/>
-			</svg></button><br>
-			</form>
-			</div>
-			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-analytics.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
-			<script>
-			var tamale=16;
-			navegar=navigator.userAgent;
-			moes=["Mobile","iPhone","iPod","BlackBerry","Opera Mini","Sony","MOT","Nokia","samsung"];
-			detctor=0;
-			for (i in moes) {
-			   comprueo=navegar.indexOf(moes[i]); 
-			   if (comprueo>-1) { 
-			      detctor=1;}}
-			if (detctor==1) {
-			  var el = document.body;
-			   el.style.cssText +='zoom: 3;';
-			  var chet =document.getElementById('div14');
-			   chet.style.cssText='width: 95%;margin: auto;';
-			  var chatUL=document.getElementById('chatUL');
-			  chatUL.style.cssText+='height: 22vh;';
-			  var tooglebt=document.getElementById('toggle-bt');
-			  tooglebt.style.cssText+='position: relative;';
-			  var imensaje = document.getElementById('mensaje');
-			  imensaje.style.cssText+='font-size: 8px;min-width: 83%;width: 83%;';
-			  tamale=6;
-			}
-			var mover=0;
-			var firebaseConfig = {
-			    apiKey: "AIzaSyBaWYB5WNU0n4rXwqwHyWWOz_WzS5bBXeg",
-			    authDomain: "chat-100-f2902.firebaseapp.com",
-			    projectId: "chat-100-f2902",
-			    storageBucket: "chat-100-f2902.appspot.com",
-			    messagingSenderId: "738798460220",
-			    appId: "1:738798460220:web:103c0a691b8d6b7f27d239",
-			    measurementId: "G-4KLMEBSHFP"
-			};
-			  firebase.initializeApp(firebaseConfig);
-			  firebase.analytics();
-			  var txtMensaje =document.getElementById('mensaje');
-			  var chatUL =document.getElementById('chatUL');
-			  function clicado(){
-				var mensaje = txtMensaje.value;
-				if (Object.entries(mensaje.trim()).length === 0) {
-				} else {
-			const user = firebase.auth().currentUser;
-			if (user) {
-			var nombre = user.email;
-			var dia = new Date();
-			var mes=(dia.getMonth() + 1)
-			var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
-			firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha});
-			txtMensaje.value="";document.getElementById("button4bajo").click();
-			var el = document.getElementById("mensaje");
-  			setTimeout(function(){
-  			el.style.cssText +='height:auto;'
-    		el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});
-    		document.getElementById("button4bajo").click();
-    		if (detctor==1){}else{document.getElementById("mensaje").focus();}
-			}else{alert("Inicia sesion para poder enviar mensajes");}
-			}};
-				firebase.database().ref().child('chat')
-				.on('value',function(snapshot) {
-				var mover2=0;
-				var html ='';
-				snapshot.forEach(function(e){
-					var element= e.val();
-					var nombre=element.name;
-					var mensaje = element.message;
-					var fecha = element.fecha;
-					var keey = e.key.toString();
-						html +="<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>"+nombre+"</textarea><svg id='"+keey+"' onclick='hecv(this.id)' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><textarea style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>"+mensaje+"</textarea><br><a class='tres'>"+fecha+"</a></div>";
-						mover2+=1;
-				});
-				chatUL.innerHTML=html+"<a id='com'></a>";
-				const cols = document.querySelectorAll('.dos');
-				[].forEach.call(cols, (e)=>{
-				 console.log(e);
-				 e.style.cssText+='font-size:'+tamale+'px;';
-				 e.style.cssText +='height:auto;'
-				 e.style.cssText += 'height:' + (e.scrollHeight+4) + 'px;';});
-				if (mover2>mover) {
-				document.getElementById("button4bajo").click();
-				mover=mover2;
-				} else {
-				mover=mover2;
-				}
-				console.clear();});
-				 function borrar(){
-				 	if (confirm("¿Está seguro de que desea eliminar el chat?") == true) {
-       				firebase.database().ref().child('chat').remove();}}
-				function validar(e) {
-				tecla = (document.all) ? e.keyCode : e.which;
-				if (tecla==13){
-				if (e.shiftKey==1){
-				}else{
-				var txtMensaje =document.getElementById('mensaje');
-				var mensaje = txtMensaje.value.trim();
-				if (Object.entries(mensaje).length === 0) {
-				}else{
-				navegador=navigator.userAgent;
-				moviles=["Mobile","iPhone","iPod","BlackBerry","Opera Mini","Sony","MOT","Nokia","samsung"];
-				detector=0;
-				for (i in moviles) {
-				   compruebo=navegador.indexOf(moviles[i]); 
-				if (compruebo>-1) { 
-				      detector=1;}}
-				if (detector==1) {}else{
-				document.getElementById("btnEnviar").click();
-				}}}}}
-				function hecv(cha){
-				firebase.database().ref().child('chat/'+cha).remove();}
-				var textarea = document.querySelector('textarea');
-				textarea.addEventListener('keydown', autosize);
+  <head>
+    <meta charset="UTF-8">
+    <title>Chat-100</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <div id="mensaje-de-registrado" style="display: none;justify-content: center;align-items: center;background-color: #202020;position: fixed;z-index: 1099;">Se ha enviado un mensaje de autentificacion a su correo electronico, verifique la cuenta y actualize la pagina</div>
+     <div id="m3nud3s-container" style="display: flex;justify-content: center;align-items: center;background-color: #202020;height: 100%;width: 100%;position: fixed;z-index: 999;">
+  <div style="margin: auto;width: 200px;">
+  <button id="btnAcced" class="m3nud3s-titulo" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:45px;">Iniciar sección</button>
+  <div class="m3nud3s-content" style="display:none;">
+  <br>
+  <label style="font-size: 15px;margin-left: 10px;">Correo electronico:</label><br>
+  <input type="text" autocomplete="true" id="userr" class="form-control" style="width: 90%;margin-left: 10px;outline: none;"><br>
+  <label style="font-size: 15px;margin-left: 10px;">Contraseña:</label><br>
+  <input type="password" id="pass" class="form-control" style="width: 90%;margin-left: 10px;outline: none;"><br>
+  <input type="checkbox" style="margin-top: 3px;margin-left: 10px;" onclick="mostrarContrase()"></input><label style="font-size: 15px;margin-left: 8px;">Mostrar contraseña</label><br>
+  <button onclick="acceder()" style="margin-bottom: 2px;cursor: pointer;background-color: #464749;color: #FEFEFE;border: none;margin-top:5px;margin-left:10px;width: 90%; height:30px;">Acceder</button>
+  <label onclick="olvidolacontra()" style="margin-top: 5px;color: #ef7575;cursor: pointer;font-size: 12px;margin-left: 10px;">Olvide la contraseña</label>
+  </div><br>
+  <button id="btnSuscribirse" class="m3nud3s-titulo" style="cursor: pointer;margin-left:10px;background-color: #464749;color: #FEFEFE;border: none;margin-top:15px;width: 180px; height:45px;">Registrar</button>
+  <div class="m3nud3s-content" style="display:none;">
+  <br>
+  <label style="font-size: 14px;margin-left: 10px;">Nombre de usuario:</label><br>
+  <input id="usernomb" autocomplete="off" style="width: 90%;margin-left: 10px;outline: none;"><br>
+  <label style="font-size: 14px;margin-left: 10px;">Correo electronico:</label><br>
+  <input id="userrcre" autocomplete="off" style="width: 90%;margin-left: 10px;outline: none;"><br>
+  <label style="font-size: 14px;margin-left: 10px;">Contraseña:</label><br>
+  <input id="passcre" autocomplete="off" style="width: 90%;margin-left: 10px;outline: none;"><br>
+  <label style="font-size: 14px;margin-left: 10px;">Confirma la contraseña:</label><br>
+  <input id="passconfircre" autocomplete="off" style="width: 90%;margin-left: 10px;outline: none;"><br>
+  <button onclick="register()" style="margin-bottom: -45px;cursor: pointer;background-color: #464749;color: #FEFEFE;border: none;margin-top:7px;margin-left:10px;width: 90%; height:30px;">Crear cuenta</button>
+  </div>  
+  </div>
+  </div>
+   </head>
+<body>
+  <div class="sidebar" style="-webkit-tap-highlight-color: rgba(0,0,0,0);">
+    <div class="logo-details">
+        <div id="nombrearra" class="logo_name" style="margin-left: 40px;">Chat 100</div>
+        <i class='bx bx-menu' id="btn" ></i>
+    </div>
+    <ul class="nav-list">
+      <li>
+          <i class='bx bx-search' ></i>
+         <input type="text" placeholder="Search...">
+         <span class="tooltip">Search</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-grid-alt'></i>
+          <span class="links_name">Dashboard</span>
+        </a>
+         <span class="tooltip">Dashboard</span>
+      </li>
+      <li>
+       <a href="#">
+         <i class='bx bx-user' ></i>
+         <span class="links_name">User</span>
+       </a>
+       <span class="tooltip">User</span>
+     </li>
+     <li>
+       <a href="#">
+         <i class='bx bx-chat' ></i>
+         <span class="links_name">Messages</span>
+       </a>
+       <span class="tooltip">Messages</span>
+     </li>
+     <li>
+       <a href="#">
+         <i class='bx bx-pie-chart-alt-2' ></i>
+         <span class="links_name">Analytics</span>
+       </a>
+       <span class="tooltip">Analytics</span>
+     </li>
+     <li>
+       <a href="#">
+         <i class='bx bx-folder' ></i>
+         <span class="links_name">File Manager</span>
+       </a>
+       <span class="tooltip">Files</span>
+     </li>
+      <li>
+       <a onclick="cambiarnombre()" style="cursor:pointer;">
+         <i class='bx bx-cog' ></i>
+         <span class="links_name">Cambiar nombre</span>
+       </a>
+       <span class="tooltip">Cambiar nombre</span>
+     </li>
+     <li>
+       <a onclick="cambiarlacontraseña()" style="cursor:pointer;">
+         <i class='bx bx-key' ></i>
+         <span class="links_name">Cambiar contraseña</span>
+       </a>
+       <span class="tooltip">Cambiar contraseña</span>
+     </li>
+     <li>
+       <a onclick="borrarcuenta()" style="cursor:pointer;">
+         <i class='bx bx-error' ></i>
+         <span class="links_name">Borrar la cuenta</span>
+       </a>
+       <span class="tooltip">Borrar la cuenta</span>
+     </li>
+     <li class="profile">
+         <div class="profile-details">
+           <i class="bx bx-user" style="margin-left: -5px;margin-right: 5px;margin-top: -2px;"></i>
+           <div class="name_job">
+             <input class="name" readonly="readonly" id="nombre2" style="cursor: default;padding: 0;max-width: 100px;border-radius: 50%;"></input>
+           </div>
+         </div>
+         <i class='bx bx-log-out'  onclick="salirr()" id="log_out" style="cursor: pointer;background-color: #393a3d;"></i>
+     </li>
+    </ul>
+  </div>
+  <section class="home-section">
+<div id="div14">
+      <br>
+      <ul id="chatUL">
+        Cargando..
+      </ul>
+        <a id="button4bajo" onclick="bajar()"><div style="margin-top:3px;margin-bottom: 3px;background:#464749;display:flex;align-items:center;justify-content:center;width:42px;height:42px;cursor:pointer;border-radius:50%;opacity:0.9;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20"><path fill="#FFFFFF" d="M3.8 6.7l5.7 5.7 5.7-5.7 1.6 1.6-7.3 7.2-7.3-7.2 1.6-1.6z"></path></svg></div></a>
+      <form><br><br>
+      <input readonly="readonly" type="text" id ="conin" style="display: none;cursor: default;width: 100%;max-width: 190px;border: none;background-color: #202020;font-family: sans-serif;color: #FFFFFF;font-size: 15px;outline: none;margin-top: 15px;margin-bottom: 13px;">
+      <textarea placeholder="Escribe un mensaje" onkeyup="validar(event)" name="mensaje" id="mensaje" style="margin-top: 22px;font-family: sans-serif; border-color: white; outline: none; width: 95%; height: 39px; font-size: 15px;"></textarea>
+      <button type="button" id="btnEnviar" style="margin-top: 20px;" onclick="clicado()"><svg style="margin-top:6px;cursor: pointer;margin-left: 5px;" fill=#FEFEFE xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 535.5 535.5">
+      <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"/>
+      </svg></button><br>
+      </form>
+      </div>
+
+  </section>
+<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-analytics.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+      <script>
+      navegar=navigator.userAgent;
+      moes=["Mobile","iPhone","iPod","BlackBerry","Opera Mini","Sony","MOT","Nokia","samsung"];
+      detctor=0;
+      for (i in moes) {
+         comprueo=navegar.indexOf(moes[i]); 
+         if (comprueo>-1) { 
+            detctor=1;}}
+      var mover=0;
+      var inicio="si";
+      var firebaseConfig = {
+          apiKey: "AIzaSyBaWYB5WNU0n4rXwqwHyWWOz_WzS5bBXeg",
+          authDomain: "chat-100-f2902.firebaseapp.com",
+          projectId: "chat-100-f2902",
+          storageBucket: "chat-100-f2902.appspot.com",
+          messagingSenderId: "738798460220",
+          appId: "1:738798460220:web:103c0a691b8d6b7f27d239",
+          measurementId: "G-4KLMEBSHFP"
+      };
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        var txtMensaje =document.getElementById('mensaje');
+        var chatUL =document.getElementById('chatUL');
+        function clicado(){
+        var mensaje = txtMensaje.value;
+        if (Object.entries(mensaje.trim()).length === 0) {
+        } else {
+      const user = firebase.auth().currentUser;
+      if (user) {
+      if (user.emailVerified===true) {
+      var nombre = user.displayName;
+      var dia = new Date();
+      var mes=(dia.getMonth() + 1)
+      var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
+      firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha});
+      txtMensaje.value="";document.getElementById("button4bajo").click();
+      var el = document.getElementById("mensaje");
+        setTimeout(function(){
+        el.style.cssText +='height:auto;'
+        el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});
+        document.getElementById("button4bajo").click();
+        if (detctor==1){}else{document.getElementById("mensaje").focus();}
+      }else{alert("Verifica su correo para poder enviar mensajes");}
+      }else{alert("Inicia sesion para poder enviar mensajes");}
+      }};
+        firebase.database().ref().child('chat')
+        .on('value',function(snapshot) {
+        var sionomover="no";
+        var objDiv = document.getElementById("chatUL");
+        if ((objDiv.scrollHeight-objDiv.scrollTop)<865) {sionomover="si";}
+        var mover2=0;
+        var html ='';
+        snapshot.forEach(function(e){
+          var element= e.val();
+          var nombre=element.name;
+          var mensaje = element.message;
+          var fecha = element.fecha;
+          var keey = e.key.toString();
+            html +="<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>"+nombre+"</textarea><svg id='"+keey+"' onclick='hecv(this.id)' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><textarea style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>"+mensaje+"</textarea><br><a class='tres'>"+fecha+"</a></div>";
+            mover2+=1;
+        });
+        chatUL.innerHTML=html;
+        const cols = document.querySelectorAll('.dos');
+        [].forEach.call(cols, (e)=>{
+         e.style.cssText +='height:auto;'
+         e.style.cssText += 'height:' + (e.scrollHeight+4) + 'px;';});
+        if (mover2>mover) {
+       if (inicio==="si") {
+        inicio="no";
+        document.getElementById("button4bajo").click();
+        }else{
+        if (sionomover==="si") {
+        document.getElementById("button4bajo").click();
+        }
+        }
+        mover=mover2;
+        } else {
+        mover=mover2;
+        }
+        });
+        function validar(e) {
+        tecla = (document.all) ? e.keyCode : e.which;
+        if (tecla==13){
+        if (e.shiftKey==1){
+        }else{
+        var txtMensaje =document.getElementById('mensaje');
+        var mensaje = txtMensaje.value.trim();
+        if (Object.entries(mensaje).length === 0) {
+        }else{
+        if (detctor==1) {}else{
+        document.getElementById("btnEnviar").click();
+        }}}}}
+        function hecv(cha){
+        firebase.database().ref().child('chat/'+cha).remove();}
+        var textarea = document.querySelector('textarea');
+        textarea.addEventListener('keydown', autosize);
         function autosize(){
-  			var el = this;
-  			setTimeout(function(){
-  			el.style.cssText +='height:auto;'
-    		el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});}
-				const btnToggle = document.querySelector('.toggle-btn');
-				btnToggle.addEventListener('click', function () {
-				document.getElementById('sidebar').classList.toggle('active');});
-				window.addEventListener('resize',function(event){
-				var cols = document.querySelectorAll('.dos');
-				[].forEach.call(cols, (e)=>{
-				 e.style.cssText+='font-size:'+tamale+'px;';
-				e.style.cssText +='height:auto;'
-				e.style.cssText += 'height:' + (e.scrollHeight+4) + 'px;';});
-				});
-				function acceder() {
-				var email= document.getElementById("userr").value;
-				if (email.length===0){
-				}else{
-				 if(document.getElementById("pass").type == "text"){document.getElementById("pass").type = "password";}
-				var password= document.getElementById("pass").value;
-				if (password.length===0){
-				}else{
-				firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
-			    var user = userCredential.user;
-			    var txtNombre =document.getElementById('nombre');
-			    var arreg =document.getElementById('arreg');
-			    var quit=document.getElementById('m3nud3s-container')
-			    txtNombre.value="Bienvenido: "+email;
-			    document.getElementById("pass").value="";
-			    txtNombre.style.cssText+="display:inline;"
-			    arreg.style.cssText+="display:none;"
-			    quit.style.cssText+="display:none;"
-			  })
-			  .catch((error) => {
-			    alert("Ocurrio un error al iniciar secion, verifique que tenga conexion a internet, que el correo y la contraseña sean validos, y que este registrado.");
-			  });}}}
-				function register() {
-					var emal= document.getElementById("userrcre").value;
-					if (emal.length===0){
-					}else{
-					var emaefl= document.getElementById("passcre").value;
-					var emaef= document.getElementById("passconfircre").value;
-					if (emaefl.length===0){
-					}else{
-					if (emaef.length===0){
-					}else{
-					if (emaefl===emaef){
-					var passord= document.getElementById("passcre").value;
-					firebase.auth().createUserWithEmailAndPassword(emal, passord).then((userCredential) => {
-   		    var user = userCredential.user;
-   		    alert("Has sido registrado correctamente");
-   		    var txtNombre =document.getElementById('nombre');
-			    txtNombre.value="Bienvenido: "+emal;
-			    var quit=document.getElementById('m3nud3s-container');
-			    document.getElementById("passcre").value="";
-			    document.getElementById("passconfircre").value="";
-			    txtNombre.style.cssText+="display:inline;"
-			    arreg.style.cssText+="display:none;"
-			    quit.style.cssText+="display:none;"
-    		 })
-  			.catch((error) => {
-    		var errorCode = error.code;
-    		var errorMessage = error.message;
-    		console.clear();
-    		alert("Ocurrio un error al registrar la cuenta, verifique que tenga conexion a internet, que el correo sea valido, que no haya registrado varias cuentas antes, o que este correo ya este registrado.");
-    		});
-}else{
-	alert("Las contraseñas no coinciden");}}}}}
-  		function mostrarContrase(){
+        var el = this;
+        setTimeout(function(){
+        el.style.cssText +='height:auto;'
+        el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});}
+        window.addEventListener('resize',function(event){
+        var cols = document.querySelectorAll('.dos');
+        [].forEach.call(cols, (e)=>{
+        e.style.cssText +='height:auto;'
+        e.style.cssText += 'height:' + (e.scrollHeight+4) + 'px;';});
+        });
+        function acceder() {
+        var email= document.getElementById("userr").value;
+        if (email.length===0){
+        }else{
+         if(document.getElementById("pass").type == "text"){document.getElementById("pass").type = "password";}
+        var password= document.getElementById("pass").value;
+        if (password.length===0){
+        }else{
+        firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {})
+        .catch((error) => {
+          alert("Ocurrio un error al iniciar secion, verifique que tenga conexion a internet, que el correo y la contraseña sean validos, y que este registrado.");
+        });}}}
+        function register() {
+          var emal= document.getElementById("userrcre").value;
+          if (emal.length===0){
+          }else{
+          var emaefl= document.getElementById("passcre").value;
+          var emaef= document.getElementById("passconfircre").value;
+          if (emaefl.trim().length===0){
+          }else{
+          if (emaef.trim().length===0){
+          }else{
+          if (emaefl===emaef){
+          var passord= document.getElementById("passcre").value;
+          var nombree= document.getElementById("usernomb").value;
+          if (nombree.trim().length===0){
+          }else{
+          firebase.auth().createUserWithEmailAndPassword(emal, passord).then((userCredential) => {
+          var user = userCredential.user;
+          user.updateProfile({
+            displayName: nombree,
+          }).then(() => {
+          alert("La cuenta a sido creada correctamente");
+          document.getElementById("mensaje-de-registrado").style.cssText+="display:flex";
+          }).catch((error) => {
+          alert("Ocurrio un error al registrar la cuenta, verifique que tenga conexion a internet, que el correo sea valido, que no haya registrado varias cuentas antes, o que este correo ya este registrado.");
+          }); })
+        .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.clear();
+        alert("Ocurrio un error al registrar la cuenta, verifique que tenga conexion a internet, que el correo sea valido, que no haya registrado varias cuentas antes, o que este correo ya este registrado.");
+        });
+}}else{
+  alert("Las contraseñas no coinciden");}}}}}
+      function mostrarContrase(){
       var tipo = document.getElementById("pass");
       if(tipo.type == "password"){tipo.type = "text";}else{tipo.type = "password";}}
       function salirr() {
-      	firebase.auth().signOut().then(function(){}).catch(function(){})
+        firebase.auth().signOut().then(function(){}).catch(function(){})
       }
   firebase.auth().onAuthStateChanged(function(user) {
  if (user){
-			    document.getElementById("conin").value=user.uid;
-			    var txtNombre =document.getElementById('nombre');
-			    var arreg =document.getElementById('arreg');
-			    var quit=document.getElementById('m3nud3s-container');
-			    txtNombre.value="Bienvenido: "+user.email;
-			    document.getElementById("pass").value="";
-			    txtNombre.style.cssText+="display:inline;"
-			    arreg.style.cssText+="display:none;"
-			    quit.style.cssText+="display:none;"
+  if (user.emailVerified===true) {
+          document.getElementById("conin").value=user.uid;
+          var quit=document.getElementById('m3nud3s-container');
+          var txtNombre2 =document.getElementById('nombre2');
+          txtNombre2.value=user.displayName;
+          document.getElementById("pass").value="";
+          quit.style.cssText+="display:none;";
+  }else{document.getElementById("mensaje-de-registrado").style.cssText+="display:flex";firebase.auth().currentUser.sendEmailVerification().then(() => {});
+  };
  }else{
- 				document.getElementById("conin").value="";
-			    var txtNombre =document.getElementById('nombre');
-			    var arreg =document.getElementById('arreg');
-			    var quit=document.getElementById('m3nud3s-container')
-			    txtNombre.value="";
-			    document.getElementById("pass").value="";
-			    txtNombre.style.cssText+="display:none;"
-			    arreg.style.cssText+="display: revert;"
-			    quit.style.cssText+="display:flex;"
+        document.getElementById("conin").value="";
+         var quit=document.getElementById('m3nud3s-container')
+          var txtNombre2 =document.getElementById('nombre2');
+          txtNombre2.value="";
+          document.getElementById("pass").value="";
+          quit.style.cssText+="display:flex;"
  }
 });
-			</script>
+
+function olvidolacontra() {
+ var correo = prompt("Escriba el correo electronico de la cuenta");
+ if (correo.trim().length === 0) {} else {
+  firebase.auth().sendPasswordResetEmail(correo)
+  .then(() => {
+    alert("Correo de reestablecimiento de contraseña enviado");
+  })
+  .catch((error) => {
+    alert("No se pudo enviar el correo de reestablecimiento de contraseña");
+  });
+ }
+  }
+
+  function borrarcuenta() {
+    if (confirm("¿Deseas eliminar la cuenta?")) {
+      var password=prompt("Escriba la contraseña de la cuenta");
+      if (password.trim().length === 0) {} else {
+      const user = firebase.auth().currentUser;
+      firebase.auth().signInWithEmailAndPassword(user.email, password).then((userCredential) => {
+             firebase.auth().currentUser.delete().then(() => {
+              alert("Se elimino la cuenta con exito");
+              })
+              .catch((error) => {
+              alert("Ocurrio un error y no se púdo eliminar la cuenta");
+              }); })
+      .catch((error) => {
+        alert("Ocurrio un error verifique que la contraseña sea valida");
+      });}
+    }
+  }
+
+  function cambiarlacontraseña() {
+    if (confirm("¿Deseas cambiar la contraseña de la cuenta?")) {
+      var contraseña = prompt("Escriba la contraseña actual");
+      if (contraseña.trim().length === 0) {} else {
+      const user = firebase.auth().currentUser;
+      firebase.auth().signInWithEmailAndPassword(user.email,contraseña).then((userCredential) => {
+        var nuevacontras=prompt("Escriba la contraseña nueva");
+          user.updatePassword(nuevacontras).then(() => {
+            alert("Se cambio la contraseña con exito");
+          }).catch((error) => {
+            alert("No se pudo cambiar la contraseña");
+          });
+      })
+      .catch((error) => {
+      alert("Un error ocurrio, verifique que su contraseña sea correcta");
+      });
+    }}
+  }
+
+  function cambiarnombre() {
+    if (confirm("¿Deseas cambiar el nombre de la cuenta?")) {
+      var nombre = prompt("Escriba el nuevo nombre de usuario");
+        if (nombre.trim().length===0) {} else {
+        const user = firebase.auth().currentUser;
+        user.updateProfile({
+          displayName: nombre,
+        }).then(() => {
+          alert("Se cambio el nombre de usuario correctamente");
+        }).catch((error) => {
+          alert("No se pudo cambiar el nombre de usuario");
+        });  
+        }
+    }
+  }
+  function bajar(){
+        var objDiv = document.getElementById("chatUL");
+        objDiv.scrollTop = objDiv.scrollHeight;
+        }
+      </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 $("#btnSuscribirse").click(function(){
@@ -286,29 +405,277 @@ $("#btnAcced").click(function(){
       contenido.slideUp(150);
       $(this).removeClass("open");$("#btnSuscribirse").css("display","");}});
 </script>
-<style>
-#sidebar {
-  position: fixed;
-  width: 200px;
-  height: 100%;
-  background: #282827;
-  left: -200px;
-  transition: all 150ms linear;
-  z-index: 100;
-  top: 0;
-  bottom: 0;
-}
-#sidebar.active {
-  left: 0px;
-}
-#sidebar ul li {
-  color: rgba(230, 230, 230, .9);
-  list-style: none;
-  padding: 15px 10px;
-  border-bottom: 1px solid rgba(100, 100, 100, .3);
-  text-align: center;
-}
+  <script>
+    let sidebar = document.querySelector(".sidebar");
+let closeBtn = document.querySelector("#btn");
+let searchBtn = document.querySelector(".bx-search");
 
+closeBtn.addEventListener("click", ()=>{
+  sidebar.classList.toggle("open");
+  menuBtnChange();
+});
+
+searchBtn.addEventListener("click", ()=>{
+  sidebar.classList.toggle("open");
+  menuBtnChange();
+});
+
+function menuBtnChange() {
+ if(sidebar.classList.contains("open")){
+   closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+ }else {
+   closeBtn.classList.replace("bx-menu-alt-right","bx-menu");
+ }
+}
+</script>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins" , sans-serif;
+}
+.sidebar{
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 78px;
+  background: #1c1c1c;
+  padding: 6px 14px;
+  z-index: 99;
+  transition: all 0.5s ease;
+}
+.sidebar.open{
+  width: 250px;
+}
+.sidebar .logo-details{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.sidebar .logo-details .icon{
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.sidebar .logo-details .logo_name{
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details .icon,
+.sidebar.open .logo-details .logo_name{
+  opacity: 1;
+}
+.sidebar .logo-details #btn{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 22px;
+  transition: all 0.4s ease;
+  font-size: 23px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details #btn{
+  text-align: right;
+}
+.sidebar i{
+  color: #fff;
+  height: 60px;
+  min-width: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 60px;
+}
+.sidebar .nav-list{
+  margin-top: 20px;
+  height: 100%;
+}
+.sidebar li{
+  position: relative;
+  margin: 8px 0;
+  list-style: none;
+}
+.sidebar li .tooltip{
+  position: absolute;
+  top: -20px;
+  left: calc(100% + 15px);
+  z-index: 3;
+  background: black;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0s;
+}
+.sidebar li:hover .tooltip{
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.sidebar.open li .tooltip{
+  display: none;
+}
+.sidebar input{
+  font-size: 15px;
+  color: #FFF;
+  font-weight: 400;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  width: 50px;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.5s ease;
+  background: #464749;
+}
+.sidebar.open input{
+  padding: 0 20px 0 50px;
+  width: 100%;
+}
+.sidebar .bx-search{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: 22px;
+  background: #464749;
+  color: #FFF;
+}
+.sidebar.open .bx-search:hover{
+  background: #393a3d;
+  color: #FFF;
+}
+.sidebar .bx-search:hover{
+  background: #393a3d;
+}
+.sidebar li a{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #464749;
+}
+.sidebar li a:hover{
+  background: #393a3d;
+}
+.sidebar li a .links_name{
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s;
+}
+.sidebar.open li a .links_name{
+  opacity: 1;
+  pointer-events: auto;
+}
+.sidebar li a:hover .links_name,
+.sidebar li a:hover i{
+  transition: all 0.5s ease;
+  color: #fff;
+}
+.sidebar li i{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+}
+.sidebar li.profile{
+  position: fixed;
+  height: 60px;
+  width: 78px;
+  left: 0;
+  bottom: -8px;
+  padding: 10px 14px;
+  background: #464749;
+  transition: all 0.5s ease;
+  overflow: hidden;
+}
+.sidebar.open li.profile{
+  width: 250px;
+}
+.sidebar li .profile-details{
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.sidebar li img{
+  height: 45px;
+  width: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+.sidebar li.profile .name,
+.sidebar li.profile .job{
+  font-size: 15px;
+  font-weight: 400;
+  color: #fff;
+  white-space: nowrap;
+}
+.sidebar li.profile .job{
+  font-size: 12px;
+}
+.sidebar .profile #log_out{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: #1d1b31;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  border-radius: 0px;
+  transition: all 0.5s ease;
+}
+.sidebar.open .profile #log_out{
+  width: 50px;
+  background: none;
+}
+.home-section{
+  position: relative;
+  min-height: 100vh;
+  top: 0;
+  left: 78px;
+  width: calc(100% - 78px);
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+.sidebar.open ~ .home-section{
+  left: 250px;
+  width: calc(100% - 250px);
+}
+.home-section .text{
+  display: inline-block;
+  color: #11101d;
+  font-size: 25px;
+  font-weight: 500;
+  margin: 18px
+}
+@media (max-width: 420px) {
+  .sidebar li .tooltip{
+    display: none;
+  }
+}
 
 #chatUL::-webkit-scrollbar-track
 {
@@ -334,20 +701,6 @@ background-color: #575758;
   display: block;
   margin: 0 auto; 
 }
-.toggle-btn {
-  position: absolute;
-  z-index: 101;
-  left: 10px;
-  top: 15px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
-.toggle-btn span {
-  display: block;
-  width: 40px;
-  font-size: 30px;
-}
-
 *,*:after, *:before{
 margin:  0;
 padding: 0;
@@ -355,14 +708,12 @@ padding: 0;
 -moz-box-sizing: border-box;
 box-sizing: border-box;
 }
-@keyframes girar{
-	from {transform: rotate(0deg);}
-	to {transform: rotate(360deg);}
-}
 #btnEnviar{cursor: pointer;margin-top: -3px;width: 48px;height: 48px;margin-left: 8px;position: absolute;border: none;background: #464749;border-radius: 50%;justify-content: center;align-items: center;}
 #div14{
-width: calc(100%/2);
-margin: auto;
+    width:calc(100% - 78px);
+    max-width: 850px;
+    margin: auto;
+    position: relative;
 }
 #mensaje{
 max-width:95%;
@@ -381,9 +732,9 @@ min-height: 100px;
 min-width: 157px;
 }
 #button4bajo{
-	color: #FEFEFE;
-	text-decoration: none;
-	float: right;
+  color: #FEFEFE;
+  text-decoration: none;
+  float: right;
 }
 #chatUL .uno {
 font-size: 17.4px;
@@ -403,6 +754,7 @@ width: 75%;
 #chatUL .dos {
 width: 95%;
 font-family: sans-serif;
+font-size: 16px;
 }
 #chatUL .tres {
 font-size: 11px;
@@ -414,13 +766,29 @@ right: 7px;
 line-height: 10px;
 }
 body{
-	background: #202020;
-	color: #FEFEFE;
-	font-family:sans-serif;
-	line-height: 22px;
-	text-align: left;
-	position: relative;
-	cursor: default;
+  background: #202020;
+  color: #FEFEFE;
+  font-family:sans-serif;
+  line-height: 22px;
+  text-align: left;
+  position: relative;
+  cursor: default;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+@media screen and (min-width:0px) and (max-width:358px) {
+#div14{margin-left: 15px;}
+#chatUL{width: 120%;}
+#mensaje{min-width: 83%;width: 83%;}
+#button4bajo{float: left;}
+}
+@media screen and (min-width:0px) and (max-width:410px) {
+.sidebar.open ~ .home-section{
+display: none;
+}
+.sidebar.open{
+position: absolute;
+height: 650px;
+}
 }
 @media screen and (min-height:0px) and (max-height:358px) {
 #chatUL{
@@ -447,6 +815,6 @@ height:60vh;
 height:70vh;
 }
 }
-</style>
+  </style>
 </body>
 </html>
