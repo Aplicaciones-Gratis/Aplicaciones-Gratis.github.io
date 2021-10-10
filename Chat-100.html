@@ -12,7 +12,7 @@
   <div class="m3nud3s-content" style="display:none;">
   <br>
   <label style="font-size: 15px;margin-left: 10px;">Correo electronico:</label><br>
-  <input type="text" autocomplete="true" id="userr" class="form-control" style="width: 90%;margin-left: 10px;outline: none;"><br>
+  <input type="email" autocomplete="true" id="userr" class="form-control" style="width: 90%;margin-left: 10px;outline: none;"><br>
   <label style="font-size: 15px;margin-left: 10px;">Contraseña:</label><br>
   <input type="password" id="pass" class="form-control" style="width: 90%;margin-left: 10px;outline: none;"><br>
   <input type="checkbox" style="margin-top: 3px;margin-left: 10px;" onclick="mostrarContrase()"></input><label style="font-size: 15px;margin-left: 8px;">Mostrar contraseña</label><br>
@@ -118,7 +118,7 @@
 <div id="div14">
       <br>
       <ul id="chatUL">
-        Cargando..
+        Cargando...
       </ul>
         <a id="button4bajo" onclick="bajar()"><div style="margin-top:3px;margin-bottom: 3px;background:#464749;display:flex;align-items:center;justify-content:center;width:42px;height:42px;cursor:pointer;border-radius:50%;opacity:0.9;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20" height="20"><path fill="#FFFFFF" d="M3.8 6.7l5.7 5.7 5.7-5.7 1.6 1.6-7.3 7.2-7.3-7.2 1.6-1.6z"></path></svg></div></a>
       <form><br><br>
@@ -126,7 +126,7 @@
       <textarea placeholder="Escribe un mensaje" onkeyup="validar(event)" name="mensaje" id="mensaje" style="margin-top: 22px;font-family: sans-serif; border-color: white; outline: none; width: 95%; height: 39px; font-size: 15px;"></textarea>
       <button type="button" id="btnEnviar" style="margin-top: 20px;" onclick="clicado()"><svg style="margin-top:6px;cursor: pointer;margin-left: 5px;" fill=#FEFEFE xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 535.5 535.5">
       <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"/>
-      </svg></button><br>
+      </svg></button><br><input type="file" id="archivoo"><br><a onclick="abrirr()" style="color:#ef7575;cursor:pointer">Enviar archivo</a>
       </form>
       </div>
 
@@ -135,6 +135,7 @@
       <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-analytics.js"></script>
       <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
       <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-database.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-storage.js"></script>
       <script>
       navegar=navigator.userAgent;
       moes=["Mobile","iPhone","iPod","BlackBerry","Opera Mini","Sony","MOT","Nokia","samsung"];
@@ -169,7 +170,7 @@
       var dia = new Date();
       var mes=(dia.getMonth() + 1)
       var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
-      firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha});
+      firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha,ocultoono: "none"});
       txtMensaje.value="";document.getElementById("button4bajo").click();
       var el = document.getElementById("mensaje");
         setTimeout(function(){
@@ -192,8 +193,10 @@
           var nombre=element.name;
           var mensaje = element.message;
           var fecha = element.fecha;
+          var ocultoono = element.ocultoono
+          var link=element.link
           var keey = e.key.toString();
-            html +="<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>"+nombre+"</textarea><svg id='"+keey+"' onclick='hecv(this.id)' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><textarea style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>"+mensaje+"</textarea><br><a class='tres'>"+fecha+"</a></div>";
+            html +="<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>"+nombre+"</textarea><svg id='"+keey+"' onclick='hecv(this.id)' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><textarea style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>"+mensaje+"</textarea><a style='cursor:pointer;margin-left:5px;color: #4b74b7;font-size:12px;display:"+ocultoono+";' href="+link+" target='_blank'>Descargar</a><br><a class='tres'>"+fecha+"</a></div>";
             mover2+=1;
         });
         chatUL.innerHTML=html;
@@ -383,6 +386,41 @@ function olvidolacontra() {
         var objDiv = document.getElementById("chatUL");
         objDiv.scrollTop = objDiv.scrollHeight;
         }
+
+  function abrirr() {
+    if (document.getElementById('archivoo').value === "") {
+      alert("Elija un archivo");
+          }else{
+          const file = document.getElementById('archivoo').files[0];
+          const storageRef = firebase.storage().ref(file.name);
+          const task = storageRef.put(file)
+          .then(snapshot => {
+              return snapshot.ref.getDownloadURL();
+             })
+             .then(downloadURL => {
+              user = firebase.auth().currentUser;
+              if (user) {
+              if (user.emailVerified===true) {
+              var nombre = user.displayName;
+              var dia = new Date();
+              var mes=(dia.getMonth() + 1)
+              var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
+              firebase.database().ref().child('chat').push({name: nombre,message: file.name,fecha: fecha,ocultoono: "inline",link: downloadURL});
+              document.getElementById('archivoo').value=""
+              document.getElementById("button4bajo").click();
+              var el = document.getElementById("mensaje");
+                setTimeout(function(){
+                el.style.cssText +='height:auto;'
+                el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});
+                document.getElementById("button4bajo").click();
+                if (detctor==1){}else{document.getElementById("mensaje").focus();}
+              }else{alert("Verifica su correo para poder enviar mensajes");}
+              }else{alert("Inicia sesion para poder enviar mensajes");}
+             })
+             .catch(error => {
+             alert("ocurrio un error");
+             });
+        }}
       </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
@@ -737,6 +775,7 @@ min-width: 157px;
   float: right;
 }
 #chatUL .uno {
+border-radius: 10px;
 font-size: 17.4px;
 font-family: sans-serif;
 margin-left: 5px;
