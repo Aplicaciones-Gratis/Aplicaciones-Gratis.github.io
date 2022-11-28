@@ -13,7 +13,8 @@
       <textarea id="mensaje" name="mensaje" onkeyup="validar(event)" style="border-color: white; font-family: sans-serif; font-size: 15px; height: 39px; margin-top: 10px; outline: none;"></textarea>
       <button id="btnEnviar" onclick="clicado()" style="margin-top: 8px;" type="button"><svg fill="#FEFEFE" height="25px" style="cursor: pointer; margin-left: 5px;" viewbox="0 0 535.5 535.5" width="25px" xmlns="http://www.w3.org/2000/svg">
       <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75">
-      </polygon></svg></button><br /><input id="archivoo" ondragleave="dragleaveHandler(event);" ondragover="dragOverHandler(event);" ondrop="dropHandler(event);" style="max-width: 300px;width: 80%;cursor: pointer;color: white;" type="file" /><br /><progress id="progreso" max="100" style="display: none;" value="0"></progress>
+      </polygon></svg></button><br /><input id="archivoo" ondragleave="dragleaveHandler(event);" ondragover="dragOverHandler(event);" ondrop="dropHandler(event);" style="max-width: 300px;width: 80%;cursor: pointer;color: white;" type="file" />
+      <a id="porcen" style="display:none;color: white;margin-right: 3;font-family: sans-serif;font-size: 16px;">1234</a><progress id="progreso" max="100" style="display: none;" value="0">0</progress>
       </form>
       </div>
 
@@ -64,28 +65,36 @@
           const file = document.getElementById('archivoo').files[0];
           const storageRef = firebase.storage().ref(file.name);
           const task = storageRef.put(file);
-          document.getElementById("progreso").style.cssText="display:inline;";
-          document.getElementById("btnEnviar").style.cssText="display:none;margin-top: 8px;";
+          document.getElementById("progreso").style.cssText+="display:inline;";
+          document.getElementById("porcen").style.cssText+="display:inline;";
+          document.getElementById("archivoo").style.cssText+="display:none;";
+          document.getElementById("btnEnviar").style.cssTex+="display:none;margin-top: 8px;";
           task.on("state_changed",function(snapshot){
           var percentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
           document.getElementById("progreso").value = percentage;
+          document.getElementById("porcen").innerHTML = percentage.toFixed(2)+"%";
           if(percentage==100){
-              document.getElementById("progreso").style.cssText="display:none;";
-              document.getElementById("btnEnviar").style.cssText="display:inline;margin-top: 8px;";
+              document.getElementById("progreso").style.cssText+="display:none;";
+              document.getElementById("porcen").style.cssText+="display:none;";
+              document.getElementById("archivoo").style.cssText+="display:initial;";
+              document.getElementById("btnEnviar").style.cssText+="display:inline;margin-top: 8px;";
               var nombre = document.getElementById("conin").value.trim();
      		  if (nombre.length === 0) {nombre="anónimo"};
               var dia = new Date();
               var mes=(dia.getMonth() + 1)
               var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
-              var storageRef = firebase.storage().ref(file.name);
               storageRef.getDownloadURL().then(function(url) {
               firebase.database().ref().child('chat').push({name: nombre,message: file.name,fecha: fecha,ocultoono: "inline", urll:url});
               document.getElementById('archivoo').value=""
+              document.getElementById("porcen").innerHTML = 0;
               document.getElementById("progreso").value = 0;
               document.getElementById("button4bajo").click();
               if (detctor==1){}else{document.getElementById("mensaje").focus();}
           })
           .catch(function(error) {
+            document.getElementById("archivoo").style.cssText+="display:initial;";
+            document.getElementById("progreso").style.cssText+="display:none;";
+            document.getElementById("porcen").style.cssText+="display:none;";
             alert("No se pudo enviar el archivo");
           })
           }})
