@@ -56,13 +56,9 @@
       var dia = new Date();
       var mes=(dia.getMonth() + 1)
       var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
-      firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha,ocultoono: "none"});
+      firebase.database().ref().child('chat').push({name: nombre,message: mensaje,fecha: fecha,ocultoono: "none", urll:"none"});
       txtMensaje.value="";document.getElementById("button4bajo").click();
-      var el = document.getElementById("mensaje");
-        setTimeout(function(){
-        el.style.cssText +='height:auto;'
-        el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});
-        document.getElementById("button4bajo").click();
+      document.getElementById("button4bajo").click();
         if (detctor==1){}else{document.getElementById("mensaje").focus();}}
           }else{
           const file = document.getElementById('archivoo').files[0];
@@ -81,17 +77,18 @@
               var dia = new Date();
               var mes=(dia.getMonth() + 1)
               var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
-              firebase.database().ref().child('chat').push({name: nombre,message: file.name,fecha: fecha,ocultoono: "inline"});
+              var storageRef = firebase.storage().ref(file.name);
+              storageRef.getDownloadURL().then(function(url) {
+              firebase.database().ref().child('chat').push({name: nombre,message: file.name,fecha: fecha,ocultoono: "inline", urll:url});
               document.getElementById('archivoo').value=""
               document.getElementById("progreso").value = 0;
               document.getElementById("button4bajo").click();
-              var el = document.getElementById("mensaje");
-                setTimeout(function(){
-                el.style.cssText +='height:auto;'
-                el.style.cssText += 'height:' + (el.scrollHeight+2) + 'px;';});
-                document.getElementById("button4bajo").click();
-                if (detctor==1){}else{document.getElementById("mensaje").focus();}
-           }})
+              if (detctor==1){}else{document.getElementById("mensaje").focus();}
+          })
+          .catch(function(error) {
+            alert("No se pudo enviar el archivo");
+          })
+          }})
         }};
         firebase.database().ref().child('chat')
         .on('value',function(snapshot) {
@@ -103,6 +100,7 @@
         snapshot.forEach(function(e){
           var element= e.val();
           var nombre=element.name;
+          var urll = element.urll;
           var mensaje = element.message;
           var ocultoono = element.ocultoono
           var link = mensaje
@@ -112,7 +110,7 @@
           mensaje = mensaje.replaceAll("<","&lt;");
           mensaje = mensaje.replaceAll(">","&gt;");
           mensaje = mensaje.replace(/http([^" <>\b\n]+)/g,"<a target='_blank' href='http$1'>http$1</a>");}        
-            html +="<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>"+nombre+"</textarea><svg id='"+keey+"' onclick='hecv(this.id)' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>"+mensaje+"</pre><a style='cursor:pointer;margin-left:5px;color: #4b74b7;font-size:12px;display:"+ocultoono+";' onclick='descargararchi(this.title)' title='"+link+"' target='_blank'>Descargar</a><br><a class='tres'>"+fecha+"</a></div>";
+            html +="<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>"+nombre+"</textarea><svg id='"+keey+"' onclick='hecv(this.id)' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>"+mensaje+"</pre><a style='cursor:pointer;margin-left:5px;color: #4b74b7;font-size:12px;display:"+ocultoono+";' onclick='descargararchi(this.title, this.type)' title='"+link+"' type='"+urll+"' target='_blank'>Descargar</a><br><a class='tres'>"+fecha+"</a></div>";
             mover2+=1;
         });
         chatUL.innerHTML=html;
@@ -158,14 +156,19 @@
 function dragOverHandler(ev){ 
   document.getElementById("archivoo").style.cssText += "cursor: pointer;background-color: #3a3a12; color: #d6d852;"
 }
-        function descargararchi(nombre) {
+        function descargararchi(nombre, urll) {
           var storageRef = firebase.storage().ref(nombre);
           storageRef.getDownloadURL().then(function(url) {
-          window.open(url, '_blank');
-          })
+            if (urll) {
+            if (url.toString()==urll.toString()) {window.open(url, '_blank');} else {
+              if (confirm("El archivo a sido modificado desde que se subio, ¿desea descargarlo de todos modos?")) {
+                window.open(url, '_blank');}
+              }}else{
+                window.open(url, '_blank');
+          }})
           .catch(function(error) {
             alert("Este archivo a sido eliminado");
-          })
+            })
         };
       </script>
   <style>
