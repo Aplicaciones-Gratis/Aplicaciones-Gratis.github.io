@@ -118,7 +118,7 @@
           if (element.ocultoono=="none") {
           mensaje = mensaje.replaceAll("<","&lt;");
           mensaje = mensaje.replaceAll(">","&gt;");
-          mensaje = mensaje.replace(/http([^"'´' <>\b\n]+)/g,"<a target='_blank' href='http$1'>http$1</a>");}        
+          mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g,"<a target='_blank' href='http$1'>http$1</a>");}        
             html +="<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>"+nombre+"</textarea><svg id='"+keey+"' onclick='hecv(this.id)' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>"+mensaje+"</pre><a style='cursor:pointer;margin-left:5px;color: #4b74b7;font-size:12px;display:"+ocultoono+";' onclick='descargararchi(this.title, this.type)' title='"+link+"' type='"+urll+"' target='_blank'>Descargar</a><br><a class='tres'>"+fecha+"</a></div>";
             mover2+=1;
         });
