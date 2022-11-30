@@ -86,8 +86,9 @@
               var dia = new Date();
               var mes=(dia.getMonth() + 1)
               var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
-              storageRef.getDownloadURL().then(function(url) {
-              firebase.database().ref().child('chat').push({name: nombre,message: file.name,fecha: fecha,ocultoono: "inline", urll:url});
+              storageRef.getMetadata()
+            .then((metadata) => {
+            firebase.database().ref().child('chat').push({name: nombre,message: file.name,fecha: fecha,ocultoono: "inline", urll:metadata.timeCreated});
               document.getElementById('archivoo').value=""
               subiendoo = false;
               document.getElementById("porcen").innerHTML = 0;
@@ -173,14 +174,23 @@ function dragOverHandler(ev){
 }
         function descargararchi(nombre, urll) {
           var storageRef = firebase.storage().ref(nombre);
-          storageRef.getDownloadURL().then(function(url) {
+          storageRef.getMetadata()
+            .then((metadata) => {
+            storageRef.getDownloadURL()
+            .then((url) => {
             if (urll) {
-            if (url.toString()==urll.toString()) {window.open(url, '_blank');} else {
+            if (metadata.timeCreated.toString()==urll.toString()) {
+            window.open(url, '_blank');
+            } else {
               if (confirm("El archivo a sido modificado desde que se subio, ¿desea descargarlo de todos modos?")) {
-                window.open(url, '_blank');}
+             window.open(url, '_blank');
+             }
               }}else{
-                window.open(url, '_blank');
-          }})
+              window.open(url, '_blank');
+              }})
+  .catch((error) => {
+  });
+                })
           .catch(function(error) {
             alert("Este archivo a sido eliminado");
             })
