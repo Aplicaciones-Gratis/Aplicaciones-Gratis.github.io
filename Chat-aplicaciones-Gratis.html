@@ -33,6 +33,7 @@
          if (comprueo>-1) { 
             detctor=1;}}
       var mover=0;
+      var subiendoo = false;
       var inicio="si";
       var firebaseConfig = {
           apiKey: "AIzaSyCD7U9Nv6_l4jx-Ib4JW8Wn4STwvPK-wG4",
@@ -48,7 +49,7 @@
         var txtMensaje =document.getElementById('mensaje');
         var chatUL =document.getElementById('chatUL');
         function clicado(){
-          if (document.getElementById('archivoo').value === "") {
+          if (document.getElementById('archivoo').value === "" || subiendoo === true) {
       var mensaje = txtMensaje.value;
         if (Object.entries(mensaje.trim()).length === 0) {
         } else {
@@ -62,6 +63,7 @@
       document.getElementById("button4bajo").click();
         if (detctor==1){}else{document.getElementById("mensaje").focus();}}
           }else{
+          subiendoo = true;
           const file = document.getElementById('archivoo').files[0];
           const storageRef = firebase.storage().ref(file.name);
           const task = storageRef.put(file);
@@ -74,6 +76,7 @@
           document.getElementById("progreso").value = percentage;
           document.getElementById("porcen").innerHTML = percentage.toFixed(2)+"%";
           if(percentage==100){
+              subiendoo = false;
               document.getElementById("progreso").style.cssText+="display:none;";
               document.getElementById("porcen").style.cssText+="display:none;";
               document.getElementById("archivoo").style.cssText+="display:initial;";
@@ -86,18 +89,21 @@
               storageRef.getDownloadURL().then(function(url) {
               firebase.database().ref().child('chat').push({name: nombre,message: file.name,fecha: fecha,ocultoono: "inline", urll:url});
               document.getElementById('archivoo').value=""
+              subiendoo = false;
               document.getElementById("porcen").innerHTML = 0;
               document.getElementById("progreso").value = 0;
               document.getElementById("button4bajo").click();
               if (detctor==1){}else{document.getElementById("mensaje").focus();}
           })
           .catch(function(error) {
+            subiendoo = false;
             document.getElementById("archivoo").style.cssText+="display:initial;";
             document.getElementById("progreso").style.cssText+="display:none;";
             document.getElementById("porcen").style.cssText+="display:none;";
             alert("No se pudo enviar el archivo");
           })
           }})
+          subiendoo = false;
         }};
         firebase.database().ref().child('chat')
         .on('value',function(snapshot) {
