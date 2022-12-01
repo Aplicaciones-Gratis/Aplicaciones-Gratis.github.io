@@ -75,14 +75,22 @@
           var percentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
           document.getElementById("progreso").value = percentage;
           document.getElementById("porcen").innerHTML = percentage.toFixed(2)+"%";
-          if(percentage==100){
+          },
+          (error) => {
+            subiendoo = false;
+            document.getElementById("archivoo").style.cssText+="display:initial;";
+            document.getElementById("progreso").style.cssText+="display:none;";
+            document.getElementById("porcen").style.cssText+="display:none;";
+            alert("No se pudo enviar el archivo");
+          },  
+          () => {
               subiendoo = false;
               document.getElementById("progreso").style.cssText+="display:none;";
               document.getElementById("porcen").style.cssText+="display:none;";
               document.getElementById("archivoo").style.cssText+="display:initial;";
               document.getElementById("btnEnviar").style.cssText+="display:inline;margin-top: 8px;";
               var nombre = document.getElementById("conin").value.trim();
-     		  if (nombre.length === 0) {nombre="anónimo"};
+          if (nombre.length === 0) {nombre="anónimo"};
               var dia = new Date();
               var mes=(dia.getMonth() + 1)
               var fecha =(" "+dia.getHours()+":"+dia.getMinutes()+"  "+dia.getDate()+"/"+mes+"/"+dia.getFullYear());
@@ -103,7 +111,7 @@
             document.getElementById("porcen").style.cssText+="display:none;";
             alert("No se pudo enviar el archivo");
           })
-          }})
+          })
           subiendoo = false;
         }};
         firebase.database().ref().child('chat')
