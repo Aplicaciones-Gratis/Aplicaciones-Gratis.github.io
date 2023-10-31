@@ -17,7 +17,7 @@
         </a>
         <form><br /><br /><label style="color: lightgrey;">Nombre:</label>
             <input id="conin" style="border: none; font-family: sans-serif; font-size: 15px; margin-top: 15px; max-width: 190px; outline: none; width: calc(100% - 70px);" type="text" />
-            <textarea id="mensaje" name="mensaje" onkeyup="validar(event)" style="border-color: #787878; font-family: sans-serif; font-size: 15px; height: 39px; margin-top: 10px; outline: none;"></textarea>
+            <textarea id="mensaje" name="mensaje" onkeypress="validar(event)" style="border-color: #787878; font-family: sans-serif; font-size: 15px; height: 39px; margin-top: 10px; outline: none;"></textarea>
             <button id="btnEnviar" onclick="clicado()" style="margin-top: 8px;" type="button"><svg fill="#FEFEFE" height="25px" style="cursor: pointer; margin-left: 5px;" viewbox="0 0 535.5 535.5" width="25px" xmlns="http://www.w3.org/2000/svg">
                     <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75">
                     </polygon>
@@ -147,7 +147,7 @@ firebase.database().ref().child('chat')
                 mensaje = mensaje.replaceAll(">", "&gt;");
                 mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
             }
-            html += "<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id)' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;margin-left:5px;color: #4b74b7;font-size:12px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
+            html += "<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id)' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:5px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
             mover2 += 1;
         });
         chatUL.innerHTML = html;
@@ -177,6 +177,8 @@ function validar(e) {
                     document.getElementById("btnEnviar").click();
                 }
             }
+         e.preventDefault();
+         return false; 
         }
     }
 }
@@ -189,6 +191,20 @@ function bajar() {
     var objDiv = document.getElementById("chatUL");
     objDiv.scrollTop = objDiv.scrollHeight;
 }
+
+
+function copiiii(elemento, event) {
+    if (event.ctrlKey) {
+        var texto = elemento.textContent || elemento.innerText;
+        var tempTextArea = document.createElement("textarea");
+        tempTextArea.value = texto;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempTextArea);
+    }
+}
+
 
 function descargararchi(nombre, urll) {
     var storageRef = firebase.storage().ref(nombre);
@@ -222,9 +238,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Eventos de drag globales para mostrar/ocultar el área de drop
     document.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        dropArea.style.display = 'flex';
-        areapantalla.style.display = 'flex';
+        if (e.dataTransfer.types.includes("Files")) {
+            e.preventDefault();
+            dropArea.style.display = 'flex';
+            areapantalla.style.display = 'flex';
+        }
     });
     document.addEventListener('dragleave', function(e) {
         e.preventDefault();
