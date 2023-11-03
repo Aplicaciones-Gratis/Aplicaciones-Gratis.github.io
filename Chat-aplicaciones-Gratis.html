@@ -76,54 +76,67 @@ function clicado() {
     } else {
         subiendoo = true;
         const file = document.getElementById('archivoo').files[0];
-        const storageRef = firebase.storage().ref(file.name);
-        const task = storageRef.put(file);
-        document.getElementById("progreso").style.cssText += "display:inline;";
-        document.getElementById("porcen").style.cssText += "display:inline;";
-        document.getElementById("archivoo").style.cssText += "display:none;";
-        document.getElementById("btnEnviar").style.cssTex += "display:none;margin-top: 8px;";
-        task.on("state_changed", function(snapshot) {
-                var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                document.getElementById("progreso").value = percentage;
-                document.getElementById("porcen").innerHTML = percentage.toFixed(2) + "%";
-            },
-            (error) => {
+
+        if (file) {
+            const fileName = file.name;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+            const notallowedExtensions = ['apk', 'ipa', 'exe', 'bat', 'dll'];
+            if (notallowedExtensions.includes(fileExtension)) {
+                alert('No se permiten archivos APK, IPA, EXE, BAT, DLL; pero puedes comprimirlos para enviarlos.');
                 subiendoo = false;
-                document.getElementById("archivoo").style.cssText += "display:initial;";
-                document.getElementById("progreso").style.cssText += "display:none;";
-                document.getElementById("porcen").style.cssText += "display:none;";
-                alert("No se pudo enviar el archivo");
-            },
-            () => {
-                subiendoo = false;
-                document.getElementById("progreso").style.cssText += "display:none;";
-                document.getElementById("porcen").style.cssText += "display:none;";
-                document.getElementById("archivoo").style.cssText += "display:initial;";
-                document.getElementById("btnEnviar").style.cssText += "display:inline;margin-top: 8px;";
-                var nombre = document.getElementById("conin").value.trim();
-                if (nombre.length === 0) { nombre = "anónimo" };
-                var dia = new Date();
-                var mes = (dia.getMonth() + 1)
-                var fecha = (" " + dia.getHours() + ":" + dia.getMinutes() + "  " + dia.getDate() + "/" + mes + "/" + dia.getFullYear());
-                storageRef.getMetadata()
-                    .then((metadata) => {
-                        firebase.database().ref().child('chat').push({ name: nombre, message: file.name, fecha: fecha, ocultoono: "inline", urll: metadata.timeCreated });
-                        document.getElementById('archivoo').value = ""
-                        subiendoo = false;
-                        document.getElementById("porcen").innerHTML = 0;
-                        document.getElementById("progreso").value = 0;
-                        document.getElementById("button4bajo").click();
-                        if (detctor == 1) {} else { document.getElementById("mensaje").focus(); }
-                    })
-                    .catch(function(error) {
+            } else {
+                const storageRef = firebase.storage().ref(file.name);
+                const task = storageRef.put(file);
+                document.getElementById("progreso").style.cssText += "display:inline;";
+                document.getElementById("porcen").style.cssText += "display:inline;";
+                document.getElementById("archivoo").style.cssText += "display:none;";
+                document.getElementById("btnEnviar").style.cssTex += "display:none;margin-top: 8px;";
+                task.on("state_changed", function(snapshot) {
+                        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        document.getElementById("progreso").value = percentage;
+                        document.getElementById("porcen").innerHTML = percentage.toFixed(2) + "%";
+                    },
+                    (error) => {
                         subiendoo = false;
                         document.getElementById("archivoo").style.cssText += "display:initial;";
                         document.getElementById("progreso").style.cssText += "display:none;";
                         document.getElementById("porcen").style.cssText += "display:none;";
                         alert("No se pudo enviar el archivo");
+                    },
+                    () => {
+                        subiendoo = false;
+                        document.getElementById("progreso").style.cssText += "display:none;";
+                        document.getElementById("porcen").style.cssText += "display:none;";
+                        document.getElementById("archivoo").style.cssText += "display:initial;";
+                        document.getElementById("btnEnviar").style.cssText += "display:inline;margin-top: 8px;";
+                        var nombre = document.getElementById("conin").value.trim();
+                        if (nombre.length === 0) { nombre = "anónimo" };
+                        var dia = new Date();
+                        var mes = (dia.getMonth() + 1)
+                        var fecha = (" " + dia.getHours() + ":" + dia.getMinutes() + "  " + dia.getDate() + "/" + mes + "/" + dia.getFullYear());
+                        storageRef.getMetadata()
+                            .then((metadata) => {
+                                firebase.database().ref().child('chat').push({ name: nombre, message: file.name, fecha: fecha, ocultoono: "inline", urll: metadata.timeCreated });
+                                document.getElementById('archivoo').value = ""
+                                subiendoo = false;
+                                document.getElementById("porcen").innerHTML = 0;
+                                document.getElementById("progreso").value = 0;
+                                document.getElementById("button4bajo").click();
+                                if (detctor == 1) {} else { document.getElementById("mensaje").focus(); }
+                            })
+                            .catch(function(error) {
+                                subiendoo = false;
+                                document.getElementById("archivoo").style.cssText += "display:initial;";
+                                document.getElementById("progreso").style.cssText += "display:none;";
+                                document.getElementById("porcen").style.cssText += "display:none;";
+                                alert("No se pudo enviar el archivo");
+                            })
                     })
-            })
-        subiendoo = false;
+                subiendoo = false;
+            }
+        } else {
+            console.log('No se ha seleccionado ningún archivo.');
+        }
     }
 };
 firebase.database().ref().child('chat')
@@ -177,8 +190,8 @@ function validar(e) {
                     document.getElementById("btnEnviar").click();
                 }
             }
-         e.preventDefault();
-         return false; 
+            e.preventDefault();
+            return false;
         }
     }
 }
