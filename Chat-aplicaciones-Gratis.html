@@ -67,7 +67,17 @@ function clicado() {
             var dia = new Date();
             var mes = (dia.getMonth() + 1)
             var fecha = (" " + dia.getHours() + ":" + dia.getMinutes() + "  " + dia.getDate() + "/" + mes + "/" + dia.getFullYear());
-            firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, ocultoono: "none", urll: "none" });
+            var posicionContra = nombre.indexOf("contra=");
+            if (posicionContra !== -1) {
+                var antesContra = nombre.substring(0, posicionContra);
+                var despuesContra = nombre.substring(posicionContra + "contra=".length);
+                nombre = antesContra
+                var newChildRef = firebase.database().ref('seguro').child(despuesContra).push({message: mensaje});
+                var newChildKey = newChildRef.key;
+                firebase.database().ref().child('chat').push({ name: nombre,fecha: fecha,urll: "none",ocultoono: "none",keyparacon: newChildKey,keycont: true});
+            }else{
+                firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, ocultoono: "none", urll: "none" });
+            }
             txtMensaje.value = "";
             document.getElementById("button4bajo").click();
             document.getElementById("button4bajo").click();
@@ -182,19 +192,26 @@ firebase.database().ref().child('chat')
             var nombre = element.name;
             var urll = element.urll;
             var mensaje = element.message;
-            var ocultoono = element.ocultoono
-            var link = mensaje
+            var keycont = element.keycont;
+            var keyparacon = element.keyparacon;
+            var ocultoono = element.ocultoono;
+            var link = mensaje;
             var fecha = element.fecha;
             var keey = e.key.toString();
             var archielim = ""
-            if (element.ocultoono == "none") {
-                mensaje = mensaje.replaceAll("<", "&lt;");
-                mensaje = mensaje.replaceAll(">", "&gt;");
-                mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
+            if (keycont==true){
+                
+                mensaje='<input id="' + keyparacon + '" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 15px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text">'
             }else{
-                archielim = mensaje
+                if (element.ocultoono == "none") {
+                    mensaje = mensaje.replaceAll("<", "&lt;");
+                    mensaje = mensaje.replaceAll(">", "&gt;");
+                    mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
+                }else{
+                    archielim = mensaje
+                }
             }
-            html += "<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id, \"" + archielim + "\")' style='margin-top: 5px;margin-right: 2px;float:right;' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:5px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
+            html += "<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id, \"" + archielim + "\",\"" + keyparacon + "\",this.getAttribute(\"contra\"))' style='margin-top: 5px;margin-right: 2px;float:right;' contra='' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' id='" + keyparacon + "segundo' style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:5px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
             mover2 += 1;
         });
         chatUL.innerHTML = html;
@@ -230,7 +247,7 @@ function validar(e) {
     }
 }
 
-function hecv(cha, archieli) {
+function hecv(cha, archieli,keyparacon,contra) {
     if (archieli!="") {
         console.log(archieli)
         var storageRef = firebase.storage().ref(archieli);             
@@ -239,7 +256,18 @@ function hecv(cha, archieli) {
                         console.error(error);
                     });
         }
-    firebase.database().ref().child('chat/' + cha).remove();
+    if (keyparacon!="undefined") {
+        var ref = firebase.database().ref().child('seguro/' + contra + '/' + keyparacon.toString());
+            ref.once('value').then(function(snapshot) {
+                if (snapshot.exists()) {
+                    ref.remove();
+                    firebase.database().ref().child('chat/' + cha).remove();  
+                }
+            });
+
+     }else{
+        firebase.database().ref().child('chat/' + cha).remove();   
+    }
 }
 
 function bajar() {
@@ -260,6 +288,23 @@ function copiiii(elemento, event) {
     }
 }
 
+function verifiseguro(uidss,e,cambiar){
+tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 13) {
+     firebase.database().ref('seguro/' + document.getElementById(uidss).value + '/' + uidss.toString()).once('value')
+      .then((snapshot) => {
+        var securedData = snapshot.val();
+        if (securedData) {
+            document.getElementById(cambiar).setAttribute('contra', document.getElementById(uidss).value);
+            var mensaje = securedData.message;
+            mensaje = mensaje.replaceAll("<", "&lt;");
+            mensaje = mensaje.replaceAll(">", "&gt;");
+            mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
+            document.getElementById(uidss + "segundo").innerHTML=mensaje;
+        }
+      });
+    }
+}
 
 function descargararchi(nombre, urll) {
     var storageRef = firebase.storage().ref(nombre);
