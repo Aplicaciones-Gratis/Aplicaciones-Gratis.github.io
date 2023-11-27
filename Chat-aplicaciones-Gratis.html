@@ -16,7 +16,7 @@
                 </svg></div>
         </a>
         <form><br /><br /><label style="color: lightgrey;">Nombre:</label>
-            <input id="conin" style="border: none; font-family: sans-serif; font-size: 15px; margin-top: 15px; max-width: 190px; outline: none; width: calc(100% - 70px);" type="text" />
+            <input id="conin" onchange="guardarYAutocompletar()" style="border: none; font-family: sans-serif; font-size: 15px; margin-top: 15px; max-width: 190px; outline: none; width: calc(100% - 70px);" type="text" />
             <textarea id="mensaje" name="mensaje" onkeypress="validar(event)" style="border-color: #787878; font-family: sans-serif; font-size: 15px; height: 39px; margin-top: 10px; outline: none;"></textarea>
             <button id="btnEnviar" onclick="clicado()" style="margin-top: 8px;" type="button"><svg fill="#FEFEFE" height="25px" style="cursor: pointer; margin-left: 5px;" viewbox="0 0 535.5 535.5" width="25px" xmlns="http://www.w3.org/2000/svg">
                     <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75">
@@ -68,15 +68,25 @@ function clicado() {
             var mes = (dia.getMonth() + 1)
             var fecha = (" " + dia.getHours() + ":" + dia.getMinutes() + "  " + dia.getDate() + "/" + mes + "/" + dia.getFullYear());
             var posicionContra = nombre.indexOf("contra=");
-            if (posicionContra !== -1) {
-                var antesContra = nombre.substring(0, posicionContra);
-                var despuesContra = nombre.substring(posicionContra + "contra=".length);
-                nombre = antesContra
-                var newChildRef = firebase.database().ref('seguro').child(despuesContra).push({message: mensaje});
-                var newChildKey = newChildRef.key;
-                firebase.database().ref().child('chat').push({ name: nombre,fecha: fecha,urll: "none",ocultoono: "none",keyparacon: newChildKey,keycont: true});
+            var posicionContrab2 = nombre.indexOf("contrav=");
+            if (posicionContrab2 !== -1) {
+                    var antesContrab2 = nombre.substring(0, posicionContrab2);
+                    var despuesContrab2 = nombre.substring(posicionContrab2 + "contrav=".length);
+                    nombre = antesContrab2
+                    var newChildRefb2 = firebase.database().ref('seguro').child(despuesContrab2).push({contraelim: despuesContrab2});
+                    var newChildKeyb2 = newChildRefb2.key;
+                    firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, urll: "none",ocultoono: "none", contraelim: newChildKeyb2});
             }else{
-                firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, ocultoono: "none", urll: "none" });
+                if (posicionContra !== -1) {
+                    var antesContra = nombre.substring(0, posicionContra);
+                    var despuesContra = nombre.substring(posicionContra + "contra=".length);
+                    nombre = antesContra
+                    var newChildRef = firebase.database().ref('seguro').child(despuesContra).push({message: mensaje});
+                    var newChildKey = newChildRef.key;
+                    firebase.database().ref().child('chat').push({ name: nombre,fecha: fecha,urll: "none",ocultoono: "none",keyparacon: newChildKey,keycont: true});
+                }else{
+                    firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, ocultoono: "none", urll: "none" });
+                } 
             }
             txtMensaje.value = "";
             document.getElementById("button4bajo").click();
@@ -196,6 +206,7 @@ firebase.database().ref().child('chat')
             var keyparacon = element.keyparacon;
             var ocultoono = element.ocultoono;
             var link = mensaje;
+            var contraelim = element.contraelim;
             var fecha = element.fecha;
             var keey = e.key.toString();
             var archielim = ""
@@ -203,6 +214,9 @@ firebase.database().ref().child('chat')
                 
                 mensaje='<input id="' + keyparacon + '" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 15px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text">'
             }else{
+                if (contraelim == undefined || contraelim.length == 0 || contraelim == "undefined") {
+                    contraelim = ""
+                }
                 if (element.ocultoono == "none") {
                     mensaje = mensaje.replaceAll("<", "&lt;");
                     mensaje = mensaje.replaceAll(">", "&gt;");
@@ -211,7 +225,7 @@ firebase.database().ref().child('chat')
                     archielim = mensaje
                 }
             }
-            html += "<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id, \"" + archielim + "\",\"" + keyparacon + "\",this.getAttribute(\"contra\"))' style='margin-top: 5px;margin-right: 2px;float:right;' contra='' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' id='" + keyparacon + "segundo' style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:5px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
+            html += "<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id, \"" + archielim + "\",\"" + keyparacon + "\",this.getAttribute(\"contra\"))' style='margin-top: 5px;margin-right: 2px;float:right;' contra='" + contraelim + "' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' id='" + keyparacon + "segundo' style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:5px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
             mover2 += 1;
         });
         chatUL.innerHTML = html;
@@ -266,9 +280,31 @@ function hecv(cha, archieli,keyparacon,contra) {
             });
 
      }else{
-        firebase.database().ref().child('chat/' + cha).remove();   
+        if (contra == undefined || contra.length == 0 || contra == "undefined") {
+            firebase.database().ref().child('chat/' + cha).remove();
+        }else{
+            var contraseña = prompt("Por favor, ingresa la contraseña:");
+            var refb2 = firebase.database().ref().child('seguro/' + contraseña + '/' + contra.toString());
+            refb2.once('value').then(function(snapshot) {
+                if (snapshot.exists()) {
+                    refb2.remove();
+                    firebase.database().ref().child('chat/' + cha).remove();
+                }
+            });            
+        }
     }
 }
+
+
+function guardarYAutocompletar() {
+    console.log("12")
+    var contenido = document.getElementById('conin').value;
+    var expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 365);
+    var formattedDate = expirationDate.toUTCString();
+    document.cookie = "contenidoinput=" + encodeURIComponent(contenido) + "; expires=" + formattedDate;
+}
+
 
 function bajar() {
     var objDiv = document.getElementById("chatUL");
@@ -399,6 +435,19 @@ function dragLeave(e) {
 function dropHandler(e) {
     dropArea.style.background = "#323232"; // Restaurar el color de fondo después de soltar el archivo
 }
+
+function autocompletar() {
+            var cookies = document.cookie.split(";");
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.startsWith("contenidoinput=")) {
+                    var contenido = decodeURIComponent(cookie.substring("contenidoinput=".length));
+                    document.getElementById('conin').value = contenido;
+                    break;
+                }
+            }
+        }
+window.onload = autocompletar;
 </script>
 <style>
 html {
