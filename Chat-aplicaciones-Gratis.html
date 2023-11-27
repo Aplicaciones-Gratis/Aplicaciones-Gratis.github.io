@@ -72,7 +72,11 @@ function clicado() {
             if (posicionContrab2 !== -1) {
                     var antesContrab2 = nombre.substring(0, posicionContrab2);
                     var despuesContrab2 = nombre.substring(posicionContrab2 + "contrab=".length);
-                    nombre = antesContrab2
+                    if (antesContrab2 === "" || antesContrab2.trim() === "") {
+                        nombre = "anonimo";
+                    } else {
+                        nombre = antesContrab2;
+                    }
                     var newChildRefb2 = firebase.database().ref('seguro').child(despuesContrab2).push({contraelim: despuesContrab2});
                     var newChildKeyb2 = newChildRefb2.key;
                     firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, urll: "none",ocultoono: "none", contraelim: newChildKeyb2});
@@ -80,7 +84,11 @@ function clicado() {
                 if (posicionContra !== -1) {
                     var antesContra = nombre.substring(0, posicionContra);
                     var despuesContra = nombre.substring(posicionContra + "contra=".length);
-                    nombre = antesContra
+                    if (antesContra === "" || antesContra.trim() === "") {
+                        nombre = "anonimo";
+                    } else {
+                        nombre = antesContra;
+                    }
                     var newChildRef = firebase.database().ref('seguro').child(despuesContra).push({message: mensaje});
                     var newChildKey = newChildRef.key;
                     firebase.database().ref().child('chat').push({ name: nombre,fecha: fecha,urll: "none",ocultoono: "none",keyparacon: newChildKey,keycont: true});
