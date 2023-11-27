@@ -68,10 +68,10 @@ function clicado() {
             var mes = (dia.getMonth() + 1)
             var fecha = (" " + dia.getHours() + ":" + dia.getMinutes() + "  " + dia.getDate() + "/" + mes + "/" + dia.getFullYear());
             var posicionContra = nombre.indexOf("contra=");
-            var posicionContrab2 = nombre.indexOf("contrav=");
+            var posicionContrab2 = nombre.indexOf("contrab=");
             if (posicionContrab2 !== -1) {
                     var antesContrab2 = nombre.substring(0, posicionContrab2);
-                    var despuesContrab2 = nombre.substring(posicionContrab2 + "contrav=".length);
+                    var despuesContrab2 = nombre.substring(posicionContrab2 + "contrab=".length);
                     nombre = antesContrab2
                     var newChildRefb2 = firebase.database().ref('seguro').child(despuesContrab2).push({contraelim: despuesContrab2});
                     var newChildKeyb2 = newChildRefb2.key;
@@ -297,12 +297,8 @@ function hecv(cha, archieli,keyparacon,contra) {
 
 
 function guardarYAutocompletar() {
-    console.log("12")
     var contenido = document.getElementById('conin').value;
-    var expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 365);
-    var formattedDate = expirationDate.toUTCString();
-    document.cookie = "contenidoinput=" + encodeURIComponent(contenido) + "; expires=" + formattedDate;
+    localStorage.setItem('Nombreee', contenido);
 }
 
 
@@ -437,16 +433,11 @@ function dropHandler(e) {
 }
 
 function autocompletar() {
-            var cookies = document.cookie.split(";");
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                if (cookie.startsWith("contenidoinput=")) {
-                    var contenido = decodeURIComponent(cookie.substring("contenidoinput=".length));
-                    document.getElementById('conin').value = contenido;
-                    break;
-                }
+            var contenidoGuardado = localStorage.getItem('Nombreee');
+            if (contenidoGuardado) {
+                document.getElementById('conin').value = contenidoGuardado;
             }
-        }
+}
 window.onload = autocompletar;
 </script>
 <style>
