@@ -16,7 +16,7 @@
                 </svg></div>
         </a>
         <form><br /><br /><label style="color: lightgrey;">Nombre:</label>
-            <input id="conin" onchange="guardarYAutocompletar()" style="border: none; font-family: sans-serif; font-size: 15px; margin-top: 15px; max-width: 190px; outline: none; width: calc(100% - 70px);" type="text" />
+            <input id="conin" autocomplete="off" onchange="guardarYAutocompletar()" style="border: none; font-family: sans-serif; font-size: 15px; margin-top: 15px; max-width: 190px; outline: none; width: calc(100% - 70px);" type="text" />
             <textarea id="mensaje" name="mensaje" onkeypress="validar(event)" style="border-color: #787878; font-family: sans-serif; font-size: 15px; height: 39px; margin-top: 10px; outline: none;"></textarea>
             <button id="btnEnviar" onclick="clicado()" style="margin-top: 8px;" type="button"><svg fill="#FEFEFE" height="25px" style="cursor: pointer; margin-left: 5px;" viewbox="0 0 535.5 535.5" width="25px" xmlns="http://www.w3.org/2000/svg">
                     <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75">
@@ -41,7 +41,6 @@ for (i in moes) {
         detctor = 1;
     }
 }
-var mover = 0;
 var subiendoo = false;
 var inicio = "si";
 var firebaseConfig = {
@@ -205,39 +204,69 @@ firebase.database().ref().child('chat')
         if ((objDiv.scrollHeight - objDiv.scrollTop) < 865) { sionomover = "si"; }
         var mover2 = 0;
         var html = '';
+        var chatUL = document.getElementById('chatUL');
+        var elementosDiv123 = chatUL.querySelectorAll('div');
+        if (elementosDiv123.length > 0) {
+          elementosDiv123.forEach(function(elementoss) {
+            elementoss.dataset.mencionado = false;
+          });
+        }
         snapshot.forEach(function(e) {
-            var element = e.val();
-            var nombre = element.name;
-            var urll = element.urll;
-            var mensaje = element.message;
-            var keycont = element.keycont;
-            var keyparacon = element.keyparacon;
-            var ocultoono = element.ocultoono;
-            var link = mensaje;
-            var contraelim = element.contraelim;
-            var fecha = element.fecha;
             var keey = e.key.toString();
-            var archielim = ""
-            if (keycont==true){
-                
-                mensaje='<input id="' + keyparacon + '" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 15px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text">'
-            }else{
-                if (contraelim == undefined || contraelim.length == 0 || contraelim == "undefined") {
-                    contraelim = ""
-                }
-                if (element.ocultoono == "none") {
-                    mensaje = mensaje.replaceAll("<", "&lt;");
-                    mensaje = mensaje.replaceAll(">", "&gt;");
-                    mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
+            var elemento = document.getElementById(keey + "div");
+              if (elemento) {  
+                elemento.dataset.mencionado = true;
+              }else{
+
+                var element = e.val();
+                var nombre = element.name;
+                var urll = element.urll;
+                var mensaje = element.message;
+                var keycont = element.keycont;
+                var keyparacon = element.keyparacon;
+                var ocultoono = element.ocultoono;
+                var link = mensaje;
+                var contraelim = element.contraelim;
+                var fecha = element.fecha;     
+                var archielim = ""
+                if (keycont==true){
+                    
+                    mensaje='<input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 15px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text">'
                 }else{
-                    archielim = mensaje
+                    if (contraelim == undefined || contraelim.length == 0 || contraelim == "undefined") {
+                        contraelim = ""
+                    }
+                    if (element.ocultoono == "none") {
+                        mensaje = mensaje.replaceAll("<", "&lt;");
+                        mensaje = mensaje.replaceAll(">", "&gt;");
+                        mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
+                    }else{
+                        archielim = mensaje
+                    }
                 }
-            }
-            html += "<div style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id, \"" + archielim + "\",\"" + keyparacon + "\",this.getAttribute(\"contra\"))' style='margin-top: 5px;margin-right: 2px;float:right;' contra='" + contraelim + "' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' id='" + keyparacon + "segundo' style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:5px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
-            mover2 += 1;
+                html += "<div id=" + keey + "div" + " style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id, \"" + archielim + "\",\"" + keyparacon + "\",this.getAttribute(\"contra\"))' style='margin-top: 5px;margin-right: 2px;float:right;' contra='" + contraelim + "' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' id='" + keyparacon + "segundo' style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:5px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
+                mover2 += 1;
+
+              }
+
+
+    
         });
-        chatUL.innerHTML = html;
-        if (mover2 > mover) {
+
+        var elementosDiv = chatUL.querySelectorAll('div');
+        if (elementosDiv.length > 0) {
+          elementosDiv.forEach(function(elementoss) {
+            if (elementoss.dataset.mencionado !== 'true') {
+              elementoss.remove();
+            }
+          });
+        }
+        if (inicio === "si") {
+            chatUL.innerHTML = html;
+        }else{
+            chatUL.innerHTML += html;
+        }
+        if (mover2 > 0) {
             if (inicio === "si") {
                 inicio = "no";
                 document.getElementById("button4bajo").click();
@@ -246,9 +275,6 @@ firebase.database().ref().child('chat')
                     document.getElementById("button4bajo").click();
                 }
             }
-            mover = mover2;
-        } else {
-            mover = mover2;
         }
     });
 
