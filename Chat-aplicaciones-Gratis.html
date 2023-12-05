@@ -69,17 +69,17 @@ function clicado() {
             var posicionContra = nombre.indexOf("contra=");
             var posicionContrab2 = nombre.indexOf("contrab=");
             if (posicionContrab2 !== -1) {
-                    var antesContrab2 = nombre.substring(0, posicionContrab2);
-                    var despuesContrab2 = nombre.substring(posicionContrab2 + "contrab=".length);
-                    if (antesContrab2 === "" || antesContrab2.trim() === "") {
-                        nombre = "anonimo";
-                    } else {
-                        nombre = antesContrab2;
-                    }
-                    var newChildRefb2 = firebase.database().ref('seguro').child(despuesContrab2).push({contraelim: despuesContrab2});
-                    var newChildKeyb2 = newChildRefb2.key;
-                    firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, urll: "none",ocultoono: "none", contraelim: newChildKeyb2});
-            }else{
+                var antesContrab2 = nombre.substring(0, posicionContrab2);
+                var despuesContrab2 = nombre.substring(posicionContrab2 + "contrab=".length);
+                if (antesContrab2 === "" || antesContrab2.trim() === "") {
+                    nombre = "anonimo";
+                } else {
+                    nombre = antesContrab2;
+                }
+                var newChildRefb2 = firebase.database().ref('seguro').child(despuesContrab2).push({ contraelim: despuesContrab2 });
+                var newChildKeyb2 = newChildRefb2.key;
+                firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, urll: "none", ocultoono: "none", contraelim: newChildKeyb2 });
+            } else {
                 if (posicionContra !== -1) {
                     var antesContra = nombre.substring(0, posicionContra);
                     var despuesContra = nombre.substring(posicionContra + "contra=".length);
@@ -88,12 +88,12 @@ function clicado() {
                     } else {
                         nombre = antesContra;
                     }
-                    var newChildRef = firebase.database().ref('seguro').child(despuesContra).push({message: mensaje});
+                    var newChildRef = firebase.database().ref('seguro').child(despuesContra).push({ message: mensaje });
                     var newChildKey = newChildRef.key;
-                    firebase.database().ref().child('chat').push({ name: nombre,fecha: fecha,urll: "none",ocultoono: "none",keyparacon: newChildKey,keycont: true});
-                }else{
+                    firebase.database().ref().child('chat').push({ name: nombre, fecha: fecha, urll: "none", ocultoono: "none", keyparacon: newChildKey, keycont: true });
+                } else {
                     firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, ocultoono: "none", urll: "none" });
-                } 
+                }
             }
             txtMensaje.value = "";
             document.getElementById("button4bajo").click();
@@ -207,16 +207,16 @@ firebase.database().ref().child('chat')
         var chatUL = document.getElementById('chatUL');
         var elementosDiv123 = chatUL.querySelectorAll('div');
         if (elementosDiv123.length > 0) {
-          elementosDiv123.forEach(function(elementoss) {
-            elementoss.dataset.mencionado = false;
-          });
+            elementosDiv123.forEach(function(elementoss) {
+                elementoss.dataset.mencionado = false;
+            });
         }
         snapshot.forEach(function(e) {
             var keey = e.key.toString();
             var elemento = document.getElementById(keey + "div");
-              if (elemento) {  
+            if (elemento) {
                 elemento.dataset.mencionado = true;
-              }else{
+            } else {
 
                 var element = e.val();
                 var nombre = element.name;
@@ -227,12 +227,12 @@ firebase.database().ref().child('chat')
                 var ocultoono = element.ocultoono;
                 var link = mensaje;
                 var contraelim = element.contraelim;
-                var fecha = element.fecha;     
+                var fecha = element.fecha;
                 var archielim = ""
-                if (keycont==true){
-                    
-                    mensaje='<input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 15px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text">'
-                }else{
+                if (keycont == true) {
+
+                    mensaje = '<input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 15px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text">'
+                } else {
                     if (contraelim == undefined || contraelim.length == 0 || contraelim == "undefined") {
                         contraelim = ""
                     }
@@ -240,30 +240,30 @@ firebase.database().ref().child('chat')
                         mensaje = mensaje.replaceAll("<", "&lt;");
                         mensaje = mensaje.replaceAll(">", "&gt;");
                         mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
-                    }else{
+                    } else {
                         archielim = mensaje
                     }
                 }
-                html += "<div id=" + keey + "div" + " style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id, \"" + archielim + "\",\"" + keyparacon + "\",this.getAttribute(\"contra\"))' style='margin-top: 5px;margin-right: 2px;float:right;' contra='" + contraelim + "' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' id='" + keyparacon + "segundo' style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:5px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
+                html += "<div id=" + keey + "div" + " style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #3a3a3a;background-color: #3a3a3a;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id, \"" + archielim + "\",\"" + keyparacon + "\",this.getAttribute(\"contra\"))' style='margin-top: 5px;margin-right: 2px;float:right;' contra='" + contraelim + "' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' id='" + keyparacon + "segundo' style='border-color: #3a3a3a;background-color: #3a3a3a;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 5px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:5px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type, this)' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
                 mover2 += 1;
 
-              }
+            }
 
 
-    
+
         });
 
         var elementosDiv = chatUL.querySelectorAll('div');
         if (elementosDiv.length > 0) {
-          elementosDiv.forEach(function(elementoss) {
-            if (elementoss.dataset.mencionado !== 'true') {
-              elementoss.remove();
-            }
-          });
+            elementosDiv.forEach(function(elementoss) {
+                if (elementoss.dataset.mencionado !== 'true') {
+                    elementoss.remove();
+                }
+            });
         }
         if (inicio === "si") {
             chatUL.innerHTML = html;
-        }else{
+        } else {
             chatUL.innerHTML += html;
         }
         if (mover2 > 0) {
@@ -295,28 +295,27 @@ function validar(e) {
     }
 }
 
-function hecv(cha, archieli,keyparacon,contra) {
-    if (archieli!="") {
+function hecv(cha, archieli, keyparacon, contra) {
+    if (archieli != "") {
         console.log(archieli)
-        var storageRef = firebase.storage().ref(archieli);             
-                    storageRef.delete().then(function() {
-                    }).catch(function(error) {
-                        console.error(error);
-                    });
-        }
-    if (keyparacon!="undefined") {
+        var storageRef = firebase.storage().ref(archieli);
+        storageRef.delete().then(function() {}).catch(function(error) {
+            console.error(error);
+        });
+    }
+    if (keyparacon != "undefined") {
         var ref = firebase.database().ref().child('seguro/' + contra + '/' + keyparacon.toString());
-            ref.once('value').then(function(snapshot) {
-                if (snapshot.exists()) {
-                    ref.remove();
-                    firebase.database().ref().child('chat/' + cha).remove();  
-                }
-            });
+        ref.once('value').then(function(snapshot) {
+            if (snapshot.exists()) {
+                ref.remove();
+                firebase.database().ref().child('chat/' + cha).remove();
+            }
+        });
 
-     }else{
+    } else {
         if (contra == undefined || contra.length == 0 || contra == "undefined") {
             firebase.database().ref().child('chat/' + cha).remove();
-        }else{
+        } else {
             var contraseña = prompt("Por favor, ingresa la contraseña:");
             var refb2 = firebase.database().ref().child('seguro/' + contraseña + '/' + contra.toString());
             refb2.once('value').then(function(snapshot) {
@@ -324,7 +323,7 @@ function hecv(cha, archieli,keyparacon,contra) {
                     refb2.remove();
                     firebase.database().ref().child('chat/' + cha).remove();
                 }
-            });            
+            });
         }
     }
 }
@@ -354,48 +353,115 @@ function copiiii(elemento, event) {
     }
 }
 
-function verifiseguro(uidss,e,cambiar){
-tecla = (document.all) ? e.keyCode : e.which;
+function verifiseguro(uidss, e, cambiar) {
+    tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 13) {
-     firebase.database().ref('seguro/' + document.getElementById(uidss).value + '/' + uidss.toString()).once('value')
-      .then((snapshot) => {
-        var securedData = snapshot.val();
-        if (securedData) {
-            document.getElementById(cambiar).setAttribute('contra', document.getElementById(uidss).value);
-            var mensaje = securedData.message;
-            mensaje = mensaje.replaceAll("<", "&lt;");
-            mensaje = mensaje.replaceAll(">", "&gt;");
-            mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
-            document.getElementById(uidss + "segundo").innerHTML=mensaje;
-        }
-      });
+        firebase.database().ref('seguro/' + document.getElementById(uidss).value + '/' + uidss.toString()).once('value')
+            .then((snapshot) => {
+                var securedData = snapshot.val();
+                if (securedData) {
+                    document.getElementById(cambiar).setAttribute('contra', document.getElementById(uidss).value);
+                    var mensaje = securedData.message;
+                    mensaje = mensaje.replaceAll("<", "&lt;");
+                    mensaje = mensaje.replaceAll(">", "&gt;");
+                    mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
+                    document.getElementById(uidss + "segundo").innerHTML = mensaje;
+                }
+            });
     }
 }
 
-function descargararchi(nombre, urll) {
-    var storageRef = firebase.storage().ref(nombre);
+function descargararchi(nombre, urll, descargaaa) {
+    if (descargaaa.innerHTML=="Descargar") {
+        var storageRef = firebase.storage().ref(nombre);
     storageRef.getMetadata()
         .then((metadata) => {
             storageRef.getDownloadURL()
                 .then((url) => {
                     if (urll) {
                         if (metadata.timeCreated.toString() == urll.toString()) {
-                            window.open(url, '_blank');
+                               const xhr = new XMLHttpRequest();
+                                xhr.responseType = 'blob';
+                                xhr.onprogress = (event) => {
+                                  if (event.lengthComputable) {
+                                    const percentComplete = (event.loaded / event.total) * 100;
+                                    descargaaa.innerHTML= (`${percentComplete.toFixed(2)}%` + "  <progress value=" + percentComplete.toFixed(2) + " max='100'></progress>")
+                                  }
+                                };
+                                xhr.onload = (event) => {
+                                  const blob = xhr.response;
+                                  const blobURL = URL.createObjectURL(blob);
+                                  const downloadLink = document.createElement('a');
+                                  downloadLink.href = blobURL;
+                                  downloadLink.download = nombre;
+                                  document.body.appendChild(downloadLink);
+                                  downloadLink.click();
+                                  document.body.removeChild(downloadLink);
+                                  URL.revokeObjectURL(blobURL);
+                                  descargaaa.innerHTML="Descargar" 
+                                };
+                                xhr.open('GET', url);
+                                xhr.send();
                         } else {
                             if (confirm("El archivo a sido modificado desde que se subio, ¿desea descargarlo de todos modos?")) {
-                                window.open(url, '_blank');
+                                const xhr = new XMLHttpRequest();
+                                xhr.responseType = 'blob';
+                                xhr.onprogress = (event) => {
+                                  if (event.lengthComputable) {
+                                    const percentComplete = (event.loaded / event.total) * 100;
+                                    descargaaa.innerHTML= (`${percentComplete.toFixed(2)}%` + "  <progress value=" + percentComplete.toFixed(2) + " max='100'></progress>")
+                                  }
+                                };
+                                xhr.onload = (event) => {
+                                  const blob = xhr.response;
+                                  const blobURL = URL.createObjectURL(blob);
+                                  const downloadLink = document.createElement('a');
+                                  downloadLink.href = blobURL;
+                                  downloadLink.download = nombre;
+                                  document.body.appendChild(downloadLink);
+                                  downloadLink.click();
+                                  document.body.removeChild(downloadLink);
+                                  URL.revokeObjectURL(blobURL);
+                                  descargaaa.innerHTML="Descargar" 
+                                };
+                                xhr.open('GET', url);
+                                xhr.send();
                             }
                         }
                     } else {
-                        window.open(url, '_blank');
+                        const xhr = new XMLHttpRequest();
+                                xhr.responseType = 'blob';
+                                xhr.onprogress = (event) => {
+                                  if (event.lengthComputable) {
+                                    const percentComplete = (event.loaded / event.total) * 100;
+                                    descargaaa.innerHTML= (`${percentComplete.toFixed(2)}%` + "  <progress value=" + percentComplete.toFixed(2) + " max='100'></progress>")
+                                  }
+                                };
+                                xhr.onload = (event) => {
+                                  const blob = xhr.response;
+                                  const blobURL = URL.createObjectURL(blob);
+                                  const downloadLink = document.createElement('a');
+                                  downloadLink.href = blobURL;
+                                  downloadLink.download = nombre;
+                                  document.body.appendChild(downloadLink);
+                                  downloadLink.click();
+                                  document.body.removeChild(downloadLink);
+                                  URL.revokeObjectURL(blobURL);
+                                  descargaaa.innerHTML="Descargar"
+                                };
+                                xhr.open('GET', url);
+                                xhr.send();
                     }
                 })
-                .catch((error) => {});
+                .catch((error) => {descargaaa.innerHTML="Descargar"});
         })
         .catch(function(error) {
             alert("Este archivo a sido eliminado");
         })
+        descargaaa.innerHTML="Descargar" 
+    }
 };
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const dropArea = document.getElementById('dropArea');
@@ -467,10 +533,10 @@ function dropHandler(e) {
 }
 
 function autocompletar() {
-            var contenidoGuardado = localStorage.getItem('Nombreee');
-            if (contenidoGuardado) {
-                document.getElementById('conin').value = contenidoGuardado;
-            }
+    var contenidoGuardado = localStorage.getItem('Nombreee');
+    if (contenidoGuardado) {
+        document.getElementById('conin').value = contenidoGuardado;
+    }
 }
 window.onload = autocompletar;
 </script>
