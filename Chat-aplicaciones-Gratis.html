@@ -7,6 +7,7 @@
     </div>
     <div id="div14">
         <br />
+        <div id="botonaparece" onclick="aparecerbotonn()" style="user-select: none;background-color: #313131;border-style: outset;border-color: #565656;border-width: 1px;height: 20px;cursor: pointer;font-size: 20px;position: initial;border-radius: 7px;display: inline-block;width: 23px;">···<boton onclick="etrarotrochatt()" id="boton1234569" style="display: none; cursor: pointer; background-color: rgb(37, 37, 37); position: absolute; z-index: 100; border-radius: 10px; border-color: rgb(141, 141, 141); border-width: 1px; font-size: 14px; border-style: inset; padding: 3px;">Entrar a una sala</boton></div>
         <div id="chatUL">
             Cargando...
         </div>
@@ -43,6 +44,7 @@ for (i in moes) {
 }
 var subiendoo = false;
 var inicio = "si";
+var chatonooo = 'chat';
 var firebaseConfig = {
     apiKey: "AIzaSyCD7U9Nv6_l4jx-Ib4JW8Wn4STwvPK-wG4",
     authDomain: "aplicaciones-gratis-chat.firebaseapp.com",
@@ -56,6 +58,16 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 var txtMensaje = document.getElementById('mensaje');
 var chatUL = document.getElementById('chatUL');
+
+
+var url5698 = new URL(window.location.href);
+var params5698 = new URLSearchParams(url5698.search);
+var valorQ5698 = params5698.get('q');
+if (valorQ5698 !== null) {
+  chatonooo = valorQ5698;
+}
+
+
 
 function clicado() {
     if (document.getElementById('archivoo').value === "" || subiendoo === true) {
@@ -78,7 +90,7 @@ function clicado() {
                 }
                 var newChildRefb2 = firebase.database().ref('seguro').child(despuesContrab2).push({ contraelim: despuesContrab2 });
                 var newChildKeyb2 = newChildRefb2.key;
-                firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, urll: "none", ocultoono: "none", contraelim: newChildKeyb2 });
+                firebase.database().ref().child(chatonooo).push({ name: nombre, message: mensaje, fecha: fecha, urll: "none", ocultoono: "none", contraelim: newChildKeyb2 });
             } else {
                 if (posicionContra !== -1) {
                     var antesContra = nombre.substring(0, posicionContra);
@@ -90,9 +102,9 @@ function clicado() {
                     }
                     var newChildRef = firebase.database().ref('seguro').child(despuesContra).push({ message: mensaje });
                     var newChildKey = newChildRef.key;
-                    firebase.database().ref().child('chat').push({ name: nombre, fecha: fecha, urll: "none", ocultoono: "none", keyparacon: newChildKey, keycont: true });
+                    firebase.database().ref().child(chatonooo).push({ name: nombre, fecha: fecha, urll: "none", ocultoono: "none", keyparacon: newChildKey, keycont: true });
                 } else {
-                    firebase.database().ref().child('chat').push({ name: nombre, message: mensaje, fecha: fecha, ocultoono: "none", urll: "none" });
+                    firebase.database().ref().child(chatonooo).push({ name: nombre, message: mensaje, fecha: fecha, ocultoono: "none", urll: "none" });
                 }
             }
             txtMensaje.value = "";
@@ -169,7 +181,7 @@ function clicado() {
                                 var fecha = (" " + dia.getHours() + ":" + dia.getMinutes() + "  " + dia.getDate() + "/" + mes + "/" + dia.getFullYear());
                                 storageRef.getMetadata()
                                     .then((metadata) => {
-                                        firebase.database().ref().child('chat').push({ name: nombre, message: fileName, fecha: fecha, ocultoono: "inline", urll: metadata.timeCreated });
+                                        firebase.database().ref().child(chatonooo).push({ name: nombre, message: fileName, fecha: fecha, ocultoono: "inline", urll: metadata.timeCreated });
                                         document.getElementById('archivoo').value = ""
                                         subiendoo = false;
                                         document.getElementById("porcen").innerHTML = 0;
@@ -197,7 +209,7 @@ function clicado() {
         }
     }
 };
-firebase.database().ref().child('chat')
+firebase.database().ref().child(chatonooo)
     .on('value', function(snapshot) {
         var sionomover = "no";
         var objDiv = document.getElementById("chatUL");
@@ -308,20 +320,20 @@ function hecv(cha, archieli, keyparacon, contra) {
         ref.once('value').then(function(snapshot) {
             if (snapshot.exists()) {
                 ref.remove();
-                firebase.database().ref().child('chat/' + cha).remove();
+                firebase.database().ref().child(chatonooo + '/' + cha).remove();
             }
         });
 
     } else {
         if (contra == undefined || contra.length == 0 || contra == "undefined") {
-            firebase.database().ref().child('chat/' + cha).remove();
+            firebase.database().ref().child(chatonooo + '/' + cha).remove();
         } else {
             var contraseña = prompt("Por favor, ingresa la contraseña:");
             var refb2 = firebase.database().ref().child('seguro/' + contraseña + '/' + contra.toString());
             refb2.once('value').then(function(snapshot) {
                 if (snapshot.exists()) {
                     refb2.remove();
-                    firebase.database().ref().child('chat/' + cha).remove();
+                    firebase.database().ref().child(chatonooo + '/' + cha).remove();
                 }
             });
         }
@@ -462,6 +474,15 @@ function descargararchi(nombre, urll, descargaaa) {
     }
 };
 
+function aparecerbotonn(){
+    if (document.getElementById('boton1234569').style.display == 'none') {
+        document.getElementById('boton1234569').style.display = 'block';
+    } else {
+        document.getElementById('boton1234569').style.display = 'none';
+    }
+    
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const dropArea = document.getElementById('dropArea');
@@ -530,6 +551,24 @@ function dragLeave(e) {
 
 function dropHandler(e) {
     dropArea.style.background = "#323232"; // Restaurar el color de fondo después de soltar el archivo
+}
+
+function etrarotrochatt(){
+    var texto = prompt("Ingresa el nombre de la sala:\n(Chat o Inicio para volver a la principal)");
+    if (texto !== null) {
+        if (texto!=="seguro") {
+            var textoMinusculas = texto.toLowerCase();
+            if (textoMinusculas === "chat" || textoMinusculas === "inicio") {
+                window.location.href = window.location.origin + window.location.pathname;
+            }else{
+                texto = encodeURIComponent(texto);
+                var nuevaURL = window.location.origin + window.location.pathname + '?q=' + texto;
+                window.location.href = nuevaURL;
+            }
+        } else {
+            alert("Esta sala no esta disponible");
+        }
+    }
 }
 
 function autocompletar() {
