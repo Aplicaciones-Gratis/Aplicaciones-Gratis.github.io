@@ -9,7 +9,8 @@
         <br />
         <div id="botonaparece" onclick="aparecerbotonn()" style="user-select: none;background-color: #313131;border-style: outset;border-color: #565656;border-width: 1px;height: 20px;cursor: pointer;font-size: 20px;position: initial;border-radius: 7px;display: inline-block;width: 23px;">···
             <boton onclick="etrarotrochatt()" id="boton1234569" style="display: none; cursor: pointer; background-color: rgb(37, 37, 37); position: absolute; z-index: 100; border-radius: 10px; border-color: rgb(141, 141, 141); border-width: 1px; font-size: 15px; border-style: inset; padding: 3px;">Entrar a una sala</boton><br>
-            <boton onclick="navigateBackOrRedirect()" id="boton12365165169" style="display: none; cursor: pointer; margin-top: 27px; background-color: rgb(37, 37, 37); position: absolute; z-index: 100; border-radius: 10px; border-color: rgb(141, 141, 141); border-width: 1px; font-size: 15px; border-style: inset; padding: 3px;">Atrás</boton>
+            <boton onclick="copyurlll()" id="boton159" style="display: none; cursor: pointer; margin-top: 27px; background-color: rgb(37, 37, 37); position: absolute; z-index: 100; border-radius: 10px; border-color: rgb(141, 141, 141); border-width: 1px; font-size: 15px; border-style: inset; padding: 3px;">Copiar url de la sala</boton><br>
+            <boton onclick="navigateBackOrRedirect()" id="boton12365165169" style="display: none; cursor: pointer; margin-top: 30px; background-color: rgb(37, 37, 37); position: absolute; z-index: 100; border-radius: 10px; border-color: rgb(141, 141, 141); border-width: 1px; font-size: 15px; border-style: inset; padding: 3px;">Atrás</boton>
         </div>
         <div id="chatUL">
             Cargando...
@@ -553,13 +554,42 @@ function descargararchi(nombre, urll, descargaaa, carpetaaa) {
     }
 };
 
+function copyurlll() {
+    var url562398 = new URL(window.location.href);
+    var params562398 = new URLSearchParams(url562398.search);
+    var valorQ562398 = params562398.get('s');
+    if (valorQ562398 !== null) {
+        var elementoTemporal = document.createElement("textarea");
+        elementoTemporal.value = ("https://aplicaciones07.blogspot.com/p/blog-page.html?s=" + valorQ562398);
+        elementoTemporal.style.position = "fixed";
+        elementoTemporal.style.opacity = 0;
+        document.body.appendChild(elementoTemporal);
+        elementoTemporal.select();
+        elementoTemporal.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        document.body.removeChild(elementoTemporal);
+    }else{
+        var elementoTemporal = document.createElement("textarea");
+        elementoTemporal.value = "https://aplicaciones07.blogspot.com/p/blog-page.html";
+        elementoTemporal.style.position = "fixed";
+        elementoTemporal.style.opacity = 0;
+        document.body.appendChild(elementoTemporal);
+        elementoTemporal.select();
+        elementoTemporal.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        document.body.removeChild(elementoTemporal);
+    }
+}
+
 function aparecerbotonn() {
     if (document.getElementById('boton1234569').style.display == 'none') {
         document.getElementById('boton1234569').style.display = 'block';
+        document.getElementById('boton159').style.display = 'block';
         document.getElementById('boton12365165169').style.display = 'block';
 
     } else {
         document.getElementById('boton1234569').style.display = 'none';
+        document.getElementById('boton159').style.display = 'none';
         document.getElementById('boton12365165169').style.display = 'none';
     }
 
