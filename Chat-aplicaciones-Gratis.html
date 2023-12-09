@@ -20,7 +20,7 @@
                     <path d="M3.8 6.7l5.7 5.7 5.7-5.7 1.6 1.6-7.3 7.2-7.3-7.2 1.6-1.6z" fill="#FFFFFF"></path>
                 </svg></div>
         </a>
-        <form><br /><br /><label style="color: lightgrey;">Nombre:</label>
+        <form><label style="color: lightgrey;">Nombre:</label>
             <input id="conin" autocomplete="off" onchange="guardarYAutocompletar()" style="border: none; font-family: sans-serif; font-size: 15px; margin-top: 15px; max-width: 190px; outline: none; width: calc(100% - 70px);" type="text" />
             <textarea id="mensaje" name="mensaje" onkeypress="validar(event)" style="border-color: #787878; font-family: sans-serif; font-size: 15px; height: 39px; margin-top: 10px; outline: none;"></textarea>
             <button id="btnEnviar" onclick="clicado()" style="margin-top: 8px;" type="button"><svg fill="#FEFEFE" height="25px" style="cursor: pointer; margin-left: 5px;" viewbox="0 0 535.5 535.5" width="25px" xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +48,7 @@ for (i in moes) {
 }
 var subiendoo = false;
 var inicio = "si";
+var scrollTopBeforeResize = 0;
 var chatonooo = 'chat';
 var firebaseConfig = {
     apiKey: "AIzaSyCD7U9Nv6_l4jx-Ib4JW8Wn4STwvPK-wG4",
@@ -69,6 +70,11 @@ var params5698 = new URLSearchParams(url5698.search);
 var valorQ5698 = params5698.get('s');
 if (valorQ5698 !== null) {
     chatonooo = valorQ5698;
+} else {
+    var elementoAEliminar = document.getElementById("boton159");
+    var padreDelElemento = elementoAEliminar.parentNode;
+    padreDelElemento.removeChild(elementoAEliminar);
+    document.getElementById('boton12365165169').style.marginTop = '3px';
 }
 
 
@@ -112,8 +118,8 @@ function clicado() {
                 }
             }
             txtMensaje.value = "";
-            document.getElementById("button4bajo").click();
-            document.getElementById("button4bajo").click();
+            var objDiv = document.getElementById("chatUL");
+            objDiv.scrollTop = objDiv.scrollHeight;
             if (detctor == 1) {} else { document.getElementById("mensaje").focus(); }
         }
     } else {
@@ -207,7 +213,8 @@ function clicado() {
                             subiendoo = false;
                             document.getElementById("porcen").innerHTML = 0;
                             document.getElementById("progreso").value = 0;
-                            document.getElementById("button4bajo").click();
+                            var objDiv = document.getElementById("chatUL");
+                            objDiv.scrollTop = objDiv.scrollHeight;
                             if (detctor == 1) {} else { document.getElementById("mensaje").focus(); }
                         })
                         .catch(function(error) {
@@ -228,7 +235,7 @@ firebase.database().ref().child(chatonooo)
     .on('value', function(snapshot) {
         var sionomover = "no";
         var objDiv = document.getElementById("chatUL");
-        if ((objDiv.scrollHeight - objDiv.scrollTop) < 865) { sionomover = "si"; }
+        if (((chatttatul.scrollHeight - chatttatul.clientHeight + 1) - chatttatul.scrollTop) < 50) { sionomover = "si"; }
         var mover2 = 0;
         var html = '';
         var chatUL = document.getElementById('chatUL');
@@ -308,10 +315,12 @@ firebase.database().ref().child(chatonooo)
         if (mover2 > 0) {
             if (inicio === "si") {
                 inicio = "no";
-                document.getElementById("button4bajo").click();
+                var objDiv = document.getElementById("chatUL");
+                objDiv.scrollTop = objDiv.scrollHeight;
             } else {
                 if (sionomover === "si") {
-                    document.getElementById("button4bajo").click();
+                    var objDiv = document.getElementById("chatUL");
+                    objDiv.scrollTop = objDiv.scrollHeight;
                 }
             }
         }
@@ -336,12 +345,17 @@ function validar(e) {
 
 function navigateBackOrRedirect() {
     if (window.history.length == 1) {
-          window.location.href = "https://aplicaciones07.blogspot.com/";
+        window.location.href = "https://aplicaciones07.blogspot.com/";
     } else {
-          window.history.back();
+        window.history.back();
     }
 }
-             
+
+
+window.addEventListener('resize', function() {
+    document.getElementById('chatUL').scrollTop = (chatttatul.scrollHeight - chatttatul.clientHeight + 1) - scrollTopBeforeResize;
+});
+
 
 function hecv(cha, archieli, keyparacon, contra, claveonoarchivo) {
     if (claveonoarchivo == "true") {
@@ -568,7 +582,7 @@ function copyurlll() {
         elementoTemporal.setSelectionRange(0, 99999);
         document.execCommand("copy");
         document.body.removeChild(elementoTemporal);
-    }else{
+    } else {
         var elementoTemporal = document.createElement("textarea");
         elementoTemporal.value = "https://aplicaciones07.blogspot.com/p/blog-page.html";
         elementoTemporal.style.position = "fixed";
@@ -584,13 +598,12 @@ function copyurlll() {
 function aparecerbotonn() {
     if (document.getElementById('boton1234569').style.display == 'none') {
         document.getElementById('boton1234569').style.display = 'block';
-        document.getElementById('boton159').style.display = 'block';
         document.getElementById('boton12365165169').style.display = 'block';
-
+        document.getElementById('boton159').style.display = 'block';
     } else {
         document.getElementById('boton1234569').style.display = 'none';
-        document.getElementById('boton159').style.display = 'none';
         document.getElementById('boton12365165169').style.display = 'none';
+        document.getElementById('boton159').style.display = 'none';
     }
 
 }
@@ -600,8 +613,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropArea = document.getElementById('dropArea');
     const areapantalla = document.getElementById('overlay');
     const archivoo = document.getElementById('archivoo');
-
-    // Eventos de drag globales para mostrar/ocultar el área de drop
     document.addEventListener('dragover', function(e) {
         if (e.dataTransfer.types.includes("Files")) {
             e.preventDefault();
@@ -611,7 +622,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     document.addEventListener('dragleave', function(e) {
         e.preventDefault();
-        if (e.relatedTarget === null) { // Verifica si el cursor ha salido completamente de la ventana
+        if (e.relatedTarget === null) {
             dropArea.style.display = 'none';
             areapantalla.style.display = 'none';
         }
@@ -622,7 +633,6 @@ document.addEventListener('DOMContentLoaded', function() {
         areapantalla.style.display = 'none';
     });
 
-    // Eventos de drag para el área de drop específica
     dropArea.addEventListener('dragenter', preventDefaults, false);
     dropArea.addEventListener('dragover', preventDefaults, false);
     dropArea.addEventListener('drop', handleDrop, false);
@@ -636,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let files = e.dataTransfer.files;
 
         if (files.length) {
-            archivoo.files = files; // Asigna los archivos soltados al input type="file"
+            archivoo.files = files;
         }
     }
 });
@@ -653,22 +663,33 @@ function preventDefaults(e) {
     e.preventDefault();
 }
 
+var chatttatul = document.getElementById('chatUL')
+chatttatul.addEventListener('scroll', function() {
+    if (((chatttatul.scrollHeight - chatttatul.clientHeight + 1) - chatttatul.scrollTop) < 50) {
+        document.getElementById("button4bajo").style.display = "none"
+    } else {
+        document.getElementById("button4bajo").style.display = "flex"
+    }
+    scrollTopBeforeResize = ((chatttatul.scrollHeight - chatttatul.clientHeight + 1) - chatttatul.scrollTop);
+});
+
+
 function dragOver(e) {
-    dropArea.style.background = "#1d1d1d"; // Cambio de color de fondo cuando un archivo está encima
+    dropArea.style.background = "#1d1d1d";
 }
 
 function dragLeave(e) {
-    dropArea.style.background = "#323232"; // Restaurar el color de fondo original cuando el archivo deja de estar encima
+    dropArea.style.background = "#323232";
 }
 
 function dropHandler(e) {
-    dropArea.style.background = "#323232"; // Restaurar el color de fondo después de soltar el archivo
+    dropArea.style.background = "#323232";
 }
 
 function etrarotrochatt() {
     var texto = prompt("Ingresa el nombre de la sala:\n(Chat o Inicio para volver a la principal)");
     if (texto !== null) {
-        if (texto !== "seguro") {
+        if (texto !== "seguro" && texto.indexOf("/") === -1) {
             var textoMinusculas = texto.toLowerCase();
             if (textoMinusculas === "chat" || textoMinusculas === "inicio") {
                 window.location.href = window.location.origin + window.location.pathname;
@@ -678,7 +699,7 @@ function etrarotrochatt() {
                 window.location.href = nuevaURL;
             }
         } else {
-            alert("Esta sala no esta disponible");
+            alert("Esta sala no esta disponible \n (no se permite '/' ni 'seguro')");
         }
     }
 }
@@ -775,18 +796,24 @@ resize: none;
 }
 
 #chatUL {
-    border: 3px solid #333333;
+    border: 0.5px solid #333333;
     width: 100%;
-    height: calc(100% - 220px);
+    height: calc(100% - 170px);
     overflow: auto;
     min-height: 100px;
     min-width: 157px;
 }
 
+
 #button4bajo {
     color: #FEFEFE;
     text-decoration: none;
     float: right;
+    z-index: 2;
+    display: none;
+    bottom: 49;
+    position: relative;
+    right: 13px;
 }
 
 #chatUL .uno {
@@ -861,11 +888,6 @@ body {
 @media screen and (min-width:0px) and (max-width:900px) {
     #div14 {
         margin: 10px;
-    }
-
-    #button4bajo {
-        float: left;
-        height: 0%;
     }
 
     body {
