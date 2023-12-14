@@ -108,6 +108,7 @@ function clicado() {
             txtMensaje.value = "";
             var objDiv = document.getElementById("chatUL");
             objDiv.scrollTop = objDiv.scrollHeight;
+            scrollTopBeforeResize = 0;
             if (detctor == 1) {} else { document.getElementById("mensaje").focus(); }
         }
     } else {
@@ -203,6 +204,7 @@ function clicado() {
                             document.getElementById("progreso").value = 0;
                             var objDiv = document.getElementById("chatUL");
                             objDiv.scrollTop = objDiv.scrollHeight;
+                            scrollTopBeforeResize = 0;
                             if (detctor == 1) {} else { document.getElementById("mensaje").focus(); }
                         })
                         .catch(function(error) {
@@ -305,10 +307,12 @@ firebase.database().ref().child(chatonooo)
                 inicio = "no";
                 var objDiv = document.getElementById("chatUL");
                 objDiv.scrollTop = objDiv.scrollHeight;
+                scrollTopBeforeResize = 0;
             } else {
                 if (sionomover === "si") {
                     var objDiv = document.getElementById("chatUL");
                     objDiv.scrollTop = objDiv.scrollHeight;
+                    scrollTopBeforeResize = 0;
                 }
             }
         }
@@ -396,6 +400,7 @@ function guardarYAutocompletar() {
 function bajar() {
     var objDiv = document.getElementById("chatUL");
     objDiv.scrollTop = objDiv.scrollHeight;
+    scrollTopBeforeResize = 0;
 }
 
 
