@@ -337,11 +337,11 @@ function validar(e) {
             var mensaje = txtMensaje.value.trim();
             if (Object.entries(mensaje).length === 0) {} else {
                 if (detctor == 1) {} else {
-                    document.getElementById("btnEnviar").click();
+                    clicado();
+                    e.preventDefault();
+                    return false;
                 }
             }
-            e.preventDefault();
-            return false;
         }
     }
 }
