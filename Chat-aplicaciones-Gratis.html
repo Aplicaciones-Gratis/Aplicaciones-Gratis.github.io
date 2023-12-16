@@ -177,9 +177,17 @@ function clicado() {
                     document.getElementById("progreso").style.cssText += "display:none;";
                     document.getElementById("porcen").style.cssText += "display:none;";
                     document.getElementById("notificattionn").style.display = "none";
-                    document.getElementById("notificattionn").innerHTML = "No se pudo enviar el archivo";
-                    document.getElementById("notificattionn").style.display = "flow";
-                    setTimeout(function() {
+                    if (window.notification1Timeout) {
+                        clearTimeout(window.notificationTimeout);
+                    }
+                    window.notification1Timeout = setTimeout(function() {
+                        document.getElementById("notificattionn").innerHTML = "No se pudo enviar el archivo";
+                        document.getElementById("notificattionn").style.display = "flow";
+                    }, 5);
+                    if (window.notificationTimeout) {
+                        clearTimeout(window.notificationTimeout);
+                    }
+                    window.notificationTimeout = setTimeout(function() {
                         document.getElementById("notificattionn").style.display = "none";
                     }, 5000);
                 },
@@ -219,9 +227,17 @@ function clicado() {
                             document.getElementById("progreso").style.cssText += "display:none;";
                             document.getElementById("porcen").style.cssText += "display:none;";
                             document.getElementById("notificattionn").style.display = "none";
-                            document.getElementById("notificattionn").innerHTML = "No se pudo enviar el archivo";
-                            document.getElementById("notificattionn").style.display = "flow";
-                            setTimeout(function() {
+                            if (window.notification1Timeout) {
+                                clearTimeout(window.notificationTimeout);
+                            }
+                            window.notification1Timeout = setTimeout(function() {
+                                document.getElementById("notificattionn").innerHTML = "No se pudo enviar el archivo";
+                                document.getElementById("notificattionn").style.display = "flow";
+                            }, 5);
+                            if (window.notificationTimeout) {
+                                clearTimeout(window.notificationTimeout);
+                            }
+                            window.notificationTimeout = setTimeout(function() {
                                 document.getElementById("notificattionn").style.display = "none";
                             }, 5000);
                         })
@@ -395,9 +411,17 @@ function hecv(cha, archieli, keyparacon, contra, claveonoarchivo) {
                         firebase.database().ref().child(chatonooo + '/' + cha).remove();
                     } else {
                         document.getElementById("notificattionn").style.display = "none";
-                        document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
-                        document.getElementById("notificattionn").style.display = "flow";
-                        setTimeout(function() {
+                        if (window.notification1Timeout) {
+                            clearTimeout(window.notificationTimeout);
+                        }
+                        window.notification1Timeout = setTimeout(function() {
+                            document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
+                            document.getElementById("notificattionn").style.display = "flow";
+                        }, 5);
+                        if (window.notificationTimeout) {
+                            clearTimeout(window.notificationTimeout);
+                        }
+                        window.notificationTimeout = setTimeout(function() {
                             document.getElementById("notificattionn").style.display = "none";
                         }, 5000);
                     }
@@ -432,9 +456,17 @@ function copiiii(elemento, event) {
         tempTextArea.select();
         document.execCommand("copy");
         document.body.removeChild(tempTextArea);
-        document.getElementById("notificattionn").innerHTML = "Copiado";
-        document.getElementById("notificattionn").style.display = "flow";
-        setTimeout(function() {
+        if (window.notification1Timeout) {
+            clearTimeout(window.notificationTimeout);
+        }
+        window.notification1Timeout = setTimeout(function() {
+            document.getElementById("notificattionn").innerHTML = "Copiado";
+            document.getElementById("notificattionn").style.display = "flow";
+        }, 5);
+        if (window.notificationTimeout) {
+            clearTimeout(window.notificationTimeout);
+        }
+        window.notificationTimeout = setTimeout(function() {
             document.getElementById("notificattionn").style.display = "none";
         }, 5000);
     }
@@ -453,6 +485,21 @@ function verifiseguro(uidss, e, cambiar) {
                     mensaje = mensaje.replaceAll(">", "&gt;");
                     mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
                     document.getElementById(uidss + "segundo").innerHTML = mensaje;
+                } else {
+                    document.getElementById("notificattionn").style.display = "none";
+                    if (window.notification1Timeout) {
+                        clearTimeout(window.notificationTimeout);
+                    }
+                    window.notification1Timeout = setTimeout(function() {
+                        document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
+                        document.getElementById("notificattionn").style.display = "flow";
+                    }, 5);
+                    if (window.notificationTimeout) {
+                        clearTimeout(window.notificationTimeout);
+                    }
+                    window.notificationTimeout = setTimeout(function() {
+                        document.getElementById("notificattionn").style.display = "none";
+                    }, 5000);
                 }
             });
     }
@@ -462,9 +509,8 @@ function verifiarchiseguro(uidss, e, cambiar, mensajenom, urll) {
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 13) {
         async function checkFileExistence(fileName1) {
-            const storage123Ref = firebase.storage().ref(fileName1);
-
             try {
+                const storage123Ref = firebase.storage().ref(fileName1);
                 const url = await storage123Ref.getDownloadURL();
                 if (url) {
                     document.getElementById(cambiar).setAttribute('contra', document.getElementById(uidss).value);
@@ -473,10 +519,39 @@ function verifiarchiseguro(uidss, e, cambiar, mensajenom, urll) {
                     document.getElementById(uidss + "segundo").innerHTML = mensajenom + '<br><a style="cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;width: 65px;color: #4b74b7;font-size:13px;margin-top: 2px;display:flex;" onclick="descargararchi(this.title, this.type, this, &quot;' + document.getElementById(uidss).value + '/' + uidss.toString() + '&quot;)" title="' + mensajenom + '" type="' + urll + '" target="_blank">Descargar</a>';
 
                 } else {
+
+                    document.getElementById("notificattionn").style.display = "none";
+                    if (window.notification1Timeout) {
+                        clearTimeout(window.notificationTimeout);
+                    }
+                    window.notification1Timeout = setTimeout(function() {
+                        document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
+                        document.getElementById("notificattionn").style.display = "flow";
+                    }, 5);
+                    if (window.notificationTimeout) {
+                        clearTimeout(window.notificationTimeout);
+                    }
+                    window.notificationTimeout = setTimeout(function() {
+                        document.getElementById("notificattionn").style.display = "none";
+                    }, 5000);
                     fileExists = false;
                     return fileName1;
                 }
             } catch (error) {
+                document.getElementById("notificattionn").style.display = "none";
+                if (window.notification1Timeout) {
+                    clearTimeout(window.notificationTimeout);
+                }
+                window.notification1Timeout = setTimeout(function() {
+                    document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
+                    document.getElementById("notificattionn").style.display = "flow";
+                }, 5);
+                if (window.notificationTimeout) {
+                    clearTimeout(window.notificationTimeout);
+                }
+                window.notificationTimeout = setTimeout(function() {
+                    document.getElementById("notificattionn").style.display = "none";
+                }, 5000);
                 return fileName1;
             }
         }
@@ -571,9 +646,17 @@ function descargararchi(nombre, urll, descargaaa, carpetaaa) {
             })
             .catch(function(error) {
                 document.getElementById("notificattionn").style.display = "none";
-                document.getElementById("notificattionn").innerHTML = "Este archivo a sido eliminado";
-                document.getElementById("notificattionn").style.display = "flow";
-                setTimeout(function() {
+                if (window.notification1Timeout) {
+                    clearTimeout(window.notificationTimeout);
+                }
+                window.notification1Timeout = setTimeout(function() {
+                    document.getElementById("notificattionn").innerHTML = "Este archivo a sido eliminado";
+                    document.getElementById("notificattionn").style.display = "flow";
+                }, 5);
+                if (window.notificationTimeout) {
+                    clearTimeout(window.notificationTimeout);
+                }
+                window.notificationTimeout = setTimeout(function() {
                     document.getElementById("notificattionn").style.display = "none";
                 }, 5000);
             })
