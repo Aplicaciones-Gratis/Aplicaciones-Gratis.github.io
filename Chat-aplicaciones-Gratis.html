@@ -44,7 +44,6 @@ for (i in moes) {
 }
 var subiendoo = false;
 var inicio = "si";
-var scrollTopBeforeResize = 0;
 var chatonooo = 'chat';
 var firebaseConfig = {
     apiKey: "AIzaSyCD7U9Nv6_l4jx-Ib4JW8Wn4STwvPK-wG4",
@@ -109,7 +108,6 @@ function clicado() {
             txtMensaje.value = "";
             var objDiv = document.getElementById("chatUL");
             objDiv.scrollTop = objDiv.scrollHeight;
-            scrollTopBeforeResize = 0;
             if (detctor == 1) {} else { document.getElementById("mensaje").focus(); }
         }
     } else {
@@ -218,7 +216,6 @@ function clicado() {
                             document.getElementById("progreso").value = 0;
                             var objDiv = document.getElementById("chatUL");
                             objDiv.scrollTop = objDiv.scrollHeight;
-                            scrollTopBeforeResize = 0;
                             if (detctor == 1) {} else { document.getElementById("mensaje").focus(); }
                         })
                         .catch(function(error) {
@@ -334,12 +331,10 @@ firebase.database().ref().child(chatonooo)
                 inicio = "no";
                 var objDiv = document.getElementById("chatUL");
                 objDiv.scrollTop = objDiv.scrollHeight;
-                scrollTopBeforeResize = 0;
             } else {
                 if (sionomover === "si") {
                     var objDiv = document.getElementById("chatUL");
                     objDiv.scrollTop = objDiv.scrollHeight;
-                    scrollTopBeforeResize = 0;
                 }
             }
         }
@@ -361,11 +356,6 @@ function validar(e) {
         }
     }
 }
-
-window.addEventListener('resize', function() {
-    document.getElementById('chatUL').scrollTop = (chatttatul.scrollHeight - chatttatul.clientHeight + 1) - scrollTopBeforeResize;
-});
-
 
 function hecv(cha, archieli, keyparacon, contra, claveonoarchivo) {
     if (claveonoarchivo == "true") {
@@ -442,7 +432,6 @@ function guardarYAutocompletar() {
 function bajar() {
     var objDiv = document.getElementById("chatUL");
     objDiv.scrollTop = objDiv.scrollHeight;
-    scrollTopBeforeResize = 0;
 }
 
 
@@ -475,6 +464,7 @@ function copiiii(elemento, event) {
 function verifiseguro(uidss, e, cambiar) {
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 13) {
+        console.log("1");
         firebase.database().ref('seguro/' + document.getElementById(uidss).value + '/' + uidss.toString()).once('value')
             .then((snapshot) => {
                 var securedData = snapshot.val();
@@ -725,7 +715,6 @@ chatttatul.addEventListener('scroll', function() {
     } else {
         document.getElementById("button4bajo").style.display = "flex"
     }
-    scrollTopBeforeResize = ((chatttatul.scrollHeight - chatttatul.clientHeight + 1) - chatttatul.scrollTop);
 });
 
 
