@@ -281,9 +281,9 @@ firebase.database().ref().child(chatonooo)
                 var archielim = "";
                 if (keycont == true) {
                     if (element.ocultoono == "none") {
-                        mensaje = '<input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text">'
+                        mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text"><svg onclick="verifisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'))" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="    cursor: pointer;background: #10121b;border-radius: 9px;margin-top: 8px;margin-left: 2px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
                     } else {
-                        mensaje = '<input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiarchiseguro(this.id,event,this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text">'
+                        mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiarchiseguro(this.id,event,this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" style="border-radius: 5px;border-color: #000000;font-family: sans-serif;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #212121;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text"><svg onclick="verifiarchisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="    cursor: pointer;background: #10121b;border-radius: 9px;margin-top: 8px;margin-left: 2px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
                         claveonoarchivo = "true";
                         archielim = carpetaaa + "/" + element.message + ".23";
                         ocultoono = "none";
@@ -464,70 +464,22 @@ function copiiii(elemento, event) {
 function verifiseguro(uidss, e, cambiar) {
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 13) {
-        console.log("1");
-        firebase.database().ref('seguro/' + document.getElementById(uidss).value + '/' + uidss.toString()).once('value')
-            .then((snapshot) => {
-                var securedData = snapshot.val();
-                if (securedData) {
-                    document.getElementById(cambiar).setAttribute('contra', document.getElementById(uidss).value);
-                    var mensaje = securedData.message;
-                    mensaje = mensaje.replaceAll("<", "&lt;");
-                    mensaje = mensaje.replaceAll(">", "&gt;");
-                    mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
-                    document.getElementById(uidss + "segundo").innerHTML = mensaje;
-                } else {
-                    document.getElementById("notificattionn").style.display = "none";
-                    if (window.notification1Timeout) {
-                        clearTimeout(window.notificationTimeout);
-                    }
-                    window.notification1Timeout = setTimeout(function() {
-                        document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
-                        document.getElementById("notificattionn").style.display = "flow";
-                    }, 5);
-                    if (window.notificationTimeout) {
-                        clearTimeout(window.notificationTimeout);
-                    }
-                    window.notificationTimeout = setTimeout(function() {
-                        document.getElementById("notificattionn").style.display = "none";
-                    }, 5000);
-                }
-            });
+        verifisegurofuncion(uidss, cambiar)
     }
 }
 
-function verifiarchiseguro(uidss, e, cambiar, mensajenom, urll) {
-    tecla = (document.all) ? e.keyCode : e.which;
-    if (tecla == 13) {
-        async function checkFileExistence(fileName1) {
-            try {
-                const storage123Ref = firebase.storage().ref(fileName1);
-                const url = await storage123Ref.getDownloadURL();
-                if (url) {
-                    document.getElementById(cambiar).setAttribute('contra', document.getElementById(uidss).value);
-                    document.getElementById(uidss + "segundo").style.height = "40px";
-                    document.getElementById(uidss + "segundo").style.marginBottom = "-5px";
-                    document.getElementById(uidss + "segundo").innerHTML = mensajenom + '<br><a style="cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;width: 65px;color: #4b74b7;font-size:13px;margin-top: 2px;display:flex;" onclick="descargararchi(this.title, this.type, this, &quot;' + document.getElementById(uidss).value + '/' + uidss.toString() + '&quot;)" title="' + mensajenom + '" type="' + urll + '" target="_blank">Descargar</a>';
-
-                } else {
-
-                    document.getElementById("notificattionn").style.display = "none";
-                    if (window.notification1Timeout) {
-                        clearTimeout(window.notificationTimeout);
-                    }
-                    window.notification1Timeout = setTimeout(function() {
-                        document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
-                        document.getElementById("notificattionn").style.display = "flow";
-                    }, 5);
-                    if (window.notificationTimeout) {
-                        clearTimeout(window.notificationTimeout);
-                    }
-                    window.notificationTimeout = setTimeout(function() {
-                        document.getElementById("notificattionn").style.display = "none";
-                    }, 5000);
-                    fileExists = false;
-                    return fileName1;
-                }
-            } catch (error) {
+function verifisegurofuncion(uidss, cambiar) {
+    firebase.database().ref('seguro/' + document.getElementById(uidss).value + '/' + uidss.toString()).once('value')
+        .then((snapshot) => {
+            var securedData = snapshot.val();
+            if (securedData) {
+                document.getElementById(cambiar).setAttribute('contra', document.getElementById(uidss).value);
+                var mensaje = securedData.message;
+                mensaje = mensaje.replaceAll("<", "&lt;");
+                mensaje = mensaje.replaceAll(">", "&gt;");
+                mensaje = mensaje.replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>");
+                document.getElementById(uidss + "segundo").innerHTML = mensaje;
+            } else {
                 document.getElementById("notificattionn").style.display = "none";
                 if (window.notification1Timeout) {
                     clearTimeout(window.notificationTimeout);
@@ -542,13 +494,67 @@ function verifiarchiseguro(uidss, e, cambiar, mensajenom, urll) {
                 window.notificationTimeout = setTimeout(function() {
                     document.getElementById("notificattionn").style.display = "none";
                 }, 5000);
-                return fileName1;
             }
-        }
-        checkFileExistence(document.getElementById(uidss).value + '/' + uidss.toString() + "/" + mensajenom + ".23")
+        });
+}
+
+function verifiarchiseguro(uidss, e, cambiar, mensajenom, urll) {
+    tecla = (document.all) ? e.keyCode : e.which;
+    if (tecla == 13) {
+        verifiarchisegurofuncion(uidss, cambiar, mensajenom, urll);
     }
 }
 
+function verifiarchisegurofuncion(uidss, cambiar, mensajenom, urll) {
+    async function checkFileExistence(fileName1) {
+        try {
+            const storage123Ref = firebase.storage().ref(fileName1);
+            const url = await storage123Ref.getDownloadURL();
+            if (url) {
+                document.getElementById(cambiar).setAttribute('contra', document.getElementById(uidss).value);
+                document.getElementById(uidss + "segundo").style.height = "40px";
+                document.getElementById(uidss + "segundo").style.marginBottom = "-5px";
+                document.getElementById(uidss + "segundo").innerHTML = mensajenom + '<br><a style="cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;width: 65px;color: #4b74b7;font-size:13px;margin-top: 2px;display:flex;" onclick="descargararchi(this.title, this.type, this, &quot;' + document.getElementById(uidss).value + '/' + uidss.toString() + '&quot;)" title="' + mensajenom + '" type="' + urll + '" target="_blank">Descargar</a>';
+
+            } else {
+
+                document.getElementById("notificattionn").style.display = "none";
+                if (window.notification1Timeout) {
+                    clearTimeout(window.notificationTimeout);
+                }
+                window.notification1Timeout = setTimeout(function() {
+                    document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
+                    document.getElementById("notificattionn").style.display = "flow";
+                }, 5);
+                if (window.notificationTimeout) {
+                    clearTimeout(window.notificationTimeout);
+                }
+                window.notificationTimeout = setTimeout(function() {
+                    document.getElementById("notificattionn").style.display = "none";
+                }, 5000);
+                fileExists = false;
+                return fileName1;
+            }
+        } catch (error) {
+            document.getElementById("notificattionn").style.display = "none";
+            if (window.notification1Timeout) {
+                clearTimeout(window.notificationTimeout);
+            }
+            window.notification1Timeout = setTimeout(function() {
+                document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
+                document.getElementById("notificattionn").style.display = "flow";
+            }, 5);
+            if (window.notificationTimeout) {
+                clearTimeout(window.notificationTimeout);
+            }
+            window.notificationTimeout = setTimeout(function() {
+                document.getElementById("notificattionn").style.display = "none";
+            }, 5000);
+            return fileName1;
+        }
+    }
+    checkFileExistence(document.getElementById(uidss).value + '/' + uidss.toString() + "/" + mensajenom + ".23")
+}
 
 function descargararchi(nombre, urll, descargaaa, carpetaaa) {
     if (descargaaa.innerHTML == "Descargar") {
