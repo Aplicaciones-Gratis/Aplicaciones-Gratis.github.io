@@ -309,11 +309,19 @@ firebase.database().ref().child(chatonooo)
                             .replaceAll("&lt;image src='https://", "\n<image src='segu")
                             .replaceAll("&gt;&lt;/image&gt;", "></image>\n")
                             .replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>")
-                            .replaceAll("<image src='segu", "<image src='https://");
+                            .replaceAll("<image src='segu", "<image style='height: 100px !important;' src='https://");
                     } else {
                         link = mensaje;
                         carpetaaa = element.carpetaaa;
                         archielim = carpetaaa + "/" + mensaje + ".23";
+                        var extension = mensaje.split('.').pop().toLowerCase();
+                        if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+                            mensaje += "\n<image id='" + carpetaaa + "' style='margin-top: 3px;height: 100px;' onclick='agrandarImagen(this)'></image>"
+                            firebase.storage().ref().child(archielim).getDownloadURL()
+                                .then((url) => {
+                                    document.getElementById(carpetaaa).src = url;
+                                })
+                        }
                     }
                 }
                 html += "<div id=" + keey + "div" + " style='margin-bottom: 6px;margin-top: 6px;margin-left: 5px;margin-right: 8px;border-color: #282b2d;background-color: #282b2d;border-radius: 10px;'><textarea class='uno' readonly='readonly'>" + nombre + "</textarea><svg id='" + keey + "' onclick='hecv(this.id, \"" + archielim + "\",\"" + keyparacon + "\",this.getAttribute(\"contra\"),this.getAttribute(\"claveonoarchivo\"),)' claveonoarchivo='" + claveonoarchivo + "' style='margin-top: 5px;margin-right: 2px;float:right;' contra='" + contraelim + "' fill=#ffffff width='20' height='20' viewBox='0 0 26 26'><path d='M18.4 4L12 10.4L5.6 4L4 5.6L10.4 12L4 18.4L5.6 20L12 13.6L18.4 20L20 18.4L13.6 12L20 5.6L18.4 4Z'></path></svg><br><pre ondblclick='copiiii(this, event)' id='" + keyparacon + "segundo' style='border-color: #282b2d;background-color: #282b2d;top:auto;resize: none;color:#FFFFFF;outline: none;margin-left: 8px;' readonly='readonly' class='dos'>" + mensaje + "</pre><a style='cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;margin-left:7px;color: #4b74b7;font-size:13px;display:" + ocultoono + ";' onclick='descargararchi(this.title, this.type, this, \"" + carpetaaa + "\")' title='" + link + "' type='" + urll + "' target='_blank'>Descargar</a><br><a class='tres'>" + fecha + "</a></div>";
@@ -371,10 +379,36 @@ function validar(e) {
 
 function ponerimagg() {
     var srcimag = prompt("Por favor, ingresa la url de la imagen:");
-    if ((srcimag !== null) && (srcimag.trim()).length !== 0) {
-        document.getElementById("mensaje").value += "<image src='" + srcimag + "'></image>";
+    if ((srcimag !== null) && (srcimag.trim().length !== 0)) {
+        if (srcimag.includes("https://")) {
+            document.getElementById("mensaje").value += "<image src='" + srcimag + "' onclick='agrandarImagen(this)'></image>";
+        } else {
+            document.getElementById("notificattionn").style.display = "none";
+            if (window.notification1Timeout) {
+                clearTimeout(window.notificationTimeout);
+            }
+            window.notification1Timeout = setTimeout(function() {
+                document.getElementById("notificattionn").innerHTML = "Formato no aceptado";
+                document.getElementById("notificattionn").style.display = "flow";
+            }, 5);
+            if (window.notificationTimeout) {
+                clearTimeout(window.notificationTimeout);
+            }
+            window.notificationTimeout = setTimeout(function() {
+                document.getElementById("notificattionn").style.display = "none";
+            }, 5000);
+        }
+
     }
 }
+
+function agrandarImagen(imagen) {    
+    if (imagen.style.height === "100px") {
+      imagen.style.height = "300px";
+    } else {
+      imagen.style.height = "100px";
+    }
+  }
 
 function hecv(cha, archieli, keyparacon, contra, claveonoarchivo) {
     if (claveonoarchivo == "true") {
@@ -503,7 +537,7 @@ function verifisegurofuncion(uidss, cambiar) {
                         .replaceAll("&lt;image src='https://", "\n<image src='segu")
                         .replaceAll("&gt;&lt;/image&gt;", "></image>\n")
                         .replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>")
-                        .replaceAll("<image src='segu", "<image src='https://");
+                        .replaceAll("<image src='segu", "<image style='height: 100px !important;' src='https://");
                     document.getElementById(uidss + "segundo").innerHTML = mensaje;
                 } else {
                     document.getElementById("notificattionn").style.display = "none";
