@@ -306,17 +306,17 @@ firebase.database().ref().child(chatonooo)
                     if (element.ocultoono == "none") {
                         mensaje = mensaje.replaceAll("<", "&lt;")
                             .replaceAll(">", "&gt;")
-                            .replaceAll("&lt;image src='https://", "\n<image src='segu")
-                            .replaceAll("&gt;&lt;/image&gt;", "></image>\n")
+                            .replaceAll('(img="https://', '\n<image src="seguhtp')
+                            .replaceAll('img)', '></image>\n')
                             .replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>")
-                            .replaceAll("<image src='segu", "<image style='height: 100px !important;' src='https://");
+                            .replaceAll('<image src="seguhtp', '<image style="height: 100px !important;cursor:pointer;" onclick="agrandarImagen(this)" src="https://');
                     } else {
                         link = mensaje;
                         carpetaaa = element.carpetaaa;
                         archielim = carpetaaa + "/" + mensaje + ".23";
                         var extension = mensaje.split('.').pop().toLowerCase();
                         if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
-                            mensaje += "\n<image id='" + carpetaaa + "' style='margin-top: 3px;height: 100px;' onclick='agrandarImagen(this)'></image>"
+                            mensaje += "\n<image id='" + carpetaaa + "' style='margin-top: 3px;height: 100px;cursor:pointer;' onclick='agrandarImagen(this)'></image>"
                             firebase.storage().ref().child(archielim).getDownloadURL()
                                 .then((url) => {
                                     document.getElementById(carpetaaa).src = url;
@@ -381,7 +381,7 @@ function ponerimagg() {
     var srcimag = prompt("Por favor, ingresa la url de la imagen:");
     if ((srcimag !== null) && (srcimag.trim().length !== 0)) {
         if (srcimag.includes("https://")) {
-            document.getElementById("mensaje").value += "<image src='" + srcimag + "' onclick='agrandarImagen(this)'></image>";
+            document.getElementById("mensaje").value += '(img="' + srcimag + '" img)';
         } else {
             document.getElementById("notificattionn").style.display = "none";
             if (window.notification1Timeout) {
@@ -402,13 +402,13 @@ function ponerimagg() {
     }
 }
 
-function agrandarImagen(imagen) {    
+function agrandarImagen(imagen) {
     if (imagen.style.height === "100px") {
-      imagen.style.height = "300px";
+        imagen.style.height = "300px";
     } else {
-      imagen.style.height = "100px";
+        imagen.style.height = "100px";
     }
-  }
+}
 
 function hecv(cha, archieli, keyparacon, contra, claveonoarchivo) {
     if (claveonoarchivo == "true") {
@@ -534,10 +534,10 @@ function verifisegurofuncion(uidss, cambiar) {
                     var mensaje = securedData.message;
                     mensaje = mensaje.replaceAll("<", "&lt;")
                         .replaceAll(">", "&gt;")
-                        .replaceAll("&lt;image src='https://", "\n<image src='segu")
-                        .replaceAll("&gt;&lt;/image&gt;", "></image>\n")
+                        .replaceAll('(img="https://', '\n<image src="seguhtp')
+                        .replaceAll('img)', '></image>\n')
                         .replace(/http([^"' <>\b\n]+)/g, "<a target='_blank' href='http$1'>http$1</a>")
-                        .replaceAll("<image src='segu", "<image style='height: 100px !important;' src='https://");
+                        .replaceAll('<image src="seguhtp', '<image style="height: 100px !important;cursor:pointer;" onclick="agrandarImagen(this)" src="https://');
                     document.getElementById(uidss + "segundo").innerHTML = mensaje;
                 } else {
                     document.getElementById("notificattionn").style.display = "none";
