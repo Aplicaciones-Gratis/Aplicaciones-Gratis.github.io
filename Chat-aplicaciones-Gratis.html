@@ -18,21 +18,20 @@
         </a>
         <form><label style="color: lightgrey;">Nombre:</label>
             <input id="conin" autocomplete="off" onchange="guardarYAutocompletar()" style="border: none; font-family: sans-serif; font-size: 15px; margin-top: 15px; max-width: 190px; outline: none; width: calc(100% - 70px);" type="text" />
-            <svg onclick="ponerimagg()" title="Añadir una imagen en mensaje" width="16" height="16" style="cursor: pointer;background: #10121b;border-radius: 9px;margin-left: 2px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+            <textarea id="mensaje" name="mensaje" onkeypress="validar(event)" style="border-color: #787878; font-family: sans-serif; font-size: 15px; height: 39px; margin-top: 10px; outline: none;background-color:#333333;"></textarea>
+            <button id="btnEnviar" onclick="clicado()" style="margin-top: 8px;" type="button"><svg fill="#FEFEFE" height="25px" style="cursor: pointer; margin-left: 5px;" viewbox="0 0 535.5 535.5" width="25px" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75">
+                    </polygon>
+                </svg></button><br /><input id="archivoo" style="max-width: 271px;width: calc(100% - 36px);cursor: pointer;color: white;" type="file" />
+            <a id="porcen" style="display:none;color: white;margin-right: 3;font-family: sans-serif;font-size: 16px;">1234</a><progress id="progreso" max="100" style="display: none;margin-right: 2px;" value="0">0</progress><svg onclick="ponerimagg()" title="Añadir una imagen en mensaje" width="16" height="16" style="cursor: pointer;background: transparent;border-radius: 9px;margin-left: 2px;padding-top: 2px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
                 <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
                 <path d="M8.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 1 0 0-3z"></path>
                 <path d="m21 15-5-5L5 21"></path>
             </svg>
-            <svg onclick="ponerimagg()" title="Añadir una imagen en mensaje" width="20" height="20" style="cursor: pointer;background: transparent;margin-left: -11px;padding-bottom: 9px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+            <svg onclick="ponerimagg()" title="Añadir una imagen en mensaje" width="20" height="20" style="cursor: pointer;background: transparent;margin-left: -11px;padding-bottom: 9px;padding-top: 2px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M12 5v14"></path>
                 <path d="M5 12h14"></path>
             </svg>
-            <textarea id="mensaje" name="mensaje" onkeypress="validar(event)" style="border-color: #787878; font-family: sans-serif; font-size: 15px; height: 39px; margin-top: 10px; outline: none;"></textarea>
-            <button id="btnEnviar" onclick="clicado()" style="margin-top: 8px;" type="button"><svg fill="#FEFEFE" height="25px" style="cursor: pointer; margin-left: 5px;" viewbox="0 0 535.5 535.5" width="25px" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75">
-                    </polygon>
-                </svg></button><br /><input id="archivoo" style="max-width: 300px;width: 80%;cursor: pointer;color: white;" type="file" />
-            <a id="porcen" style="display:none;color: white;margin-right: 3;font-family: sans-serif;font-size: 16px;">1234</a><progress id="progreso" max="100" style="display: none;" value="0">0</progress>
         </form>
     </div>
 </section>
@@ -169,10 +168,10 @@ function clicado() {
             }
             const storageRef = firebase.storage().ref(uniqueId + "/" + fileName + ".23");
             const task = storageRef.put(file);
-            document.getElementById("progreso").style.cssText += "display:inline;";
-            document.getElementById("porcen").style.cssText += "display:inline;";
-            document.getElementById("archivoo").style.cssText += "display:none;";
-            document.getElementById("btnEnviar").style.cssTex += "display:none;margin-top: 8px;";
+            document.getElementById("progreso").style.display = "inline";
+            document.getElementById("porcen").style.display = "inline";
+            document.getElementById("archivoo").style.display = "none";
+            document.getElementById("btnEnviar").style.display = "none";
             task.on("state_changed", function(snapshot) {
                     var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     document.getElementById("progreso").value = percentage;
@@ -180,9 +179,9 @@ function clicado() {
                 },
                 (error) => {
                     subiendoo = false;
-                    document.getElementById("archivoo").style.cssText += "display:initial;";
-                    document.getElementById("progreso").style.cssText += "display:none;";
-                    document.getElementById("porcen").style.cssText += "display:none;";
+                    document.getElementById("archivoo").style.display = "initial";
+                    document.getElementById("progreso").style.display = "none";
+                    document.getElementById("porcen").style.display = "none";
                     document.getElementById("notificattionn").style.display = "none";
                     if (window.notification1Timeout) {
                         clearTimeout(window.notificationTimeout);
@@ -200,10 +199,10 @@ function clicado() {
                 },
                 () => {
                     subiendoo = false;
-                    document.getElementById("progreso").style.cssText += "display:none;";
-                    document.getElementById("porcen").style.cssText += "display:none;";
-                    document.getElementById("archivoo").style.cssText += "display:initial;";
-                    document.getElementById("btnEnviar").style.cssText += "display:inline;margin-top: 8px;";
+                    document.getElementById("progreso").style.display = "none";
+                    document.getElementById("porcen").style.display = "none";
+                    document.getElementById("archivoo").style.display = "initial";
+                    document.getElementById("btnEnviar").style.display = "inline";
                     if (nombre.length === 0) { nombre = "anónimo" };
                     var dia = new Date();
                     var mes = (dia.getMonth() + 1)
@@ -229,9 +228,9 @@ function clicado() {
                         })
                         .catch(function(error) {
                             subiendoo = false;
-                            document.getElementById("archivoo").style.cssText += "display:initial;";
-                            document.getElementById("progreso").style.cssText += "display:none;";
-                            document.getElementById("porcen").style.cssText += "display:none;";
+                            document.getElementById("archivoo").style.display = "initial";
+                            document.getElementById("progreso").style.display = "none";
+                            document.getElementById("porcen").style.display = "none";
                             document.getElementById("notificattionn").style.display = "none";
                             if (window.notification1Timeout) {
                                 clearTimeout(window.notificationTimeout);
@@ -927,7 +926,6 @@ body {
 }
 
 #chatUL .uno {
-    border-radius: 10px;
     color: #ef7575;
     font-size: 17.4px;
     font-family: sans-serif;
