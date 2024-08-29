@@ -139,6 +139,7 @@
         bottom: 49px;
         position: relative;
         right: 13px;
+        animation: fadeIn 0.35s ease-out;
     }
 
     #chatUL .uno {
@@ -304,9 +305,9 @@
         <div id="chatUL">
             Cargando...
         </div>
-        <div id="notificattionn" style="display:none;position: fixed;z-index: 5;background-color: #1b1b1b;padding: 4px;border-style: solid;border-color: rgb(78, 78, 78);color: #ccc;border-width: 2px;text-align: center;font-family: sans-serif;padding-inline: 15px;border-radius: 7px;bottom: 20px;left: 15px;animation: fade3In 0.15s ease-out"></div>
-        <a id="button4bajo" onclick="bajar()" style="animation: fadeIn 0.35s ease-out;">
-            <div style="align-items: center; background: #82a431fa; border-radius: 50%; cursor: pointer; display: flex; height: 42px; justify-content: center; margin-bottom: 3px; margin-top: 3px; opacity: 0.9; width: 42px;"><svg height="20" viewbox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+        <div id="notificattionn" style="display:none;position: fixed; z-index: 5; background-color: rgb(70 70 70); padding: 4px; text-align: center; font-family: sans-serif; padding-inline: 14px; padding-block: 6px; border-radius: 7px; bottom: 20px; left: 15px; animation: 0.15s ease-out 0s 1 normal none running fade3In;"></div>
+        <a id="button4bajo" onclick="bajar()">
+            <div style="align-items: center; background: #636363; border-radius: 50%; cursor: pointer; display: flex; height: 42px; justify-content: center; margin-bottom: 3px; margin-top: 3px; opacity: 0.9; width: 42px;"><svg height="20" viewbox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3.8 6.7l5.7 5.7 5.7-5.7 1.6 1.6-7.3 7.2-7.3-7.2 1.6-1.6z" fill="#000000"></path>
                 </svg></div>
         </a>
@@ -609,20 +610,7 @@
                         document.getElementById("archivoo").style.display = "initial";
                         document.getElementById("progreso").style.display = "none";
                         document.getElementById("porcen").style.display = "none";
-                        document.getElementById("notificattionn").style.display = "none";
-                        if (window.notification1Timeout) {
-                            clearTimeout(window.notificationTimeout);
-                        }
-                        window.notification1Timeout = setTimeout(function() {
-                            document.getElementById("notificattionn").innerHTML = "No se pudo enviar el archivo";
-                            document.getElementById("notificattionn").style.display = "flow";
-                        }, 5);
-                        if (window.notificationTimeout) {
-                            clearTimeout(window.notificationTimeout);
-                        }
-                        window.notificationTimeout = setTimeout(function() {
-                            document.getElementById("notificattionn").style.display = "none";
-                        }, 5000);
+                        ponernotificacion("No se pudo enviar el archivo");
                     },
                     () => {
                         subiendoo = false;
@@ -687,20 +675,7 @@
                                 document.getElementById("archivoo").style.display = "initial";
                                 document.getElementById("progreso").style.display = "none";
                                 document.getElementById("porcen").style.display = "none";
-                                document.getElementById("notificattionn").style.display = "none";
-                                if (window.notification1Timeout) {
-                                    clearTimeout(window.notificationTimeout);
-                                }
-                                window.notification1Timeout = setTimeout(function() {
-                                    document.getElementById("notificattionn").innerHTML = "No se pudo enviar el archivo";
-                                    document.getElementById("notificattionn").style.display = "flow";
-                                }, 5);
-                                if (window.notificationTimeout) {
-                                    clearTimeout(window.notificationTimeout);
-                                }
-                                window.notificationTimeout = setTimeout(function() {
-                                    document.getElementById("notificattionn").style.display = "none";
-                                }, 5000);
+                                ponernotificacion("No se pudo enviar el archivo");
                             })
                     })
                 subiendoo = false;
@@ -899,20 +874,7 @@
             if (srcimag.includes("https://")) {
                 document.getElementById("mensaje").value += '(img="' + srcimag + '" img)';
             } else {
-                document.getElementById("notificattionn").style.display = "none";
-                if (window.notification1Timeout) {
-                    clearTimeout(window.notificationTimeout);
-                }
-                window.notification1Timeout = setTimeout(function() {
-                    document.getElementById("notificattionn").innerHTML = "Formato no aceptado";
-                    document.getElementById("notificattionn").style.display = "flow";
-                }, 5);
-                if (window.notificationTimeout) {
-                    clearTimeout(window.notificationTimeout);
-                }
-                window.notificationTimeout = setTimeout(function() {
-                    document.getElementById("notificattionn").style.display = "none";
-                }, 5000);
+                ponernotificacion("Formato no aceptado");
             }
 
         }
@@ -964,20 +926,7 @@
                                 refb2.remove();
                                 firebase.database().ref().child(chatonooo + '/' + cha).remove();
                             } else {
-                                document.getElementById("notificattionn").style.display = "none";
-                                if (window.notification1Timeout) {
-                                    clearTimeout(window.notificationTimeout);
-                                }
-                                window.notification1Timeout = setTimeout(function() {
-                                    document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
-                                    document.getElementById("notificattionn").style.display = "flow";
-                                }, 5);
-                                if (window.notificationTimeout) {
-                                    clearTimeout(window.notificationTimeout);
-                                }
-                                window.notificationTimeout = setTimeout(function() {
-                                    document.getElementById("notificattionn").style.display = "none";
-                                }, 5000);
+                                ponernotificacion("Contraseña incorrecta");
                             }
                         });
                     }
@@ -1024,19 +973,7 @@
         tempTextArea.select();
         document.execCommand("copy");
         document.body.removeChild(tempTextArea);
-        if (window.notification1Timeout) {
-            clearTimeout(window.notificationTimeout);
-        }
-        window.notification1Timeout = setTimeout(function() {
-            document.getElementById("notificattionn").innerHTML = "Copiado";
-            document.getElementById("notificattionn").style.display = "flow";
-        }, 5);
-        if (window.notificationTimeout) {
-            clearTimeout(window.notificationTimeout);
-        }
-        window.notificationTimeout = setTimeout(function() {
-            document.getElementById("notificattionn").style.display = "none";
-        }, 5000);
+        ponernotificacion("Copiado");
     }
 
     function verifiseguro(uidss, e, cambiar) {
@@ -1063,20 +1000,7 @@
                             .replaceAll('<image src="seguhtp', '<image style="height: 100px !important;cursor:pointer;" onclick="agrandarImagen(this)" src="https://');
                         document.getElementById(uidss + "segundo").innerHTML = mensaje;
                     } else {
-                        document.getElementById("notificattionn").style.display = "none";
-                        if (window.notification1Timeout) {
-                            clearTimeout(window.notificationTimeout);
-                        }
-                        window.notification1Timeout = setTimeout(function() {
-                            document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
-                            document.getElementById("notificattionn").style.display = "flow";
-                        }, 5);
-                        if (window.notificationTimeout) {
-                            clearTimeout(window.notificationTimeout);
-                        }
-                        window.notificationTimeout = setTimeout(function() {
-                            document.getElementById("notificattionn").style.display = "none";
-                        }, 5000);
+                        ponernotificacion("Contraseña incorrecta");
                     }
                 });
         }
@@ -1087,6 +1011,23 @@
         if (tecla == 13) {
             verifiarchisegurofuncion(uidss, cambiar, mensajenom, urll);
         }
+    }
+
+    function ponernotificacion(contenidonot) {
+        document.getElementById("notificattionn").style.display = "none";
+        if (window.notification1Timeout) {
+            clearTimeout(window.notificationTimeout);
+        }
+        window.notification1Timeout = setTimeout(function() {
+            document.getElementById("notificattionn").innerHTML = contenidonot;
+            document.getElementById("notificattionn").style.display = "flow";
+        }, 5);
+        if (window.notificationTimeout) {
+            clearTimeout(window.notificationTimeout);
+        }
+        window.notificationTimeout = setTimeout(function() {
+            document.getElementById("notificattionn").style.display = "none";
+        }, 5000);
     }
 
     function verifiarchisegurofuncion(uidss, cambiar, mensajenom, urll) {
@@ -1101,39 +1042,12 @@
                     document.getElementById(uidss + "segundo").innerHTML = mensajenom + '<br><a style="cursor:pointer;background: #252525;padding: 2px;border-radius: 5px;width: 65px;color: #4b74b7;font-size:13px;margin-top: 2px;display:flex;" onclick="descargararchi(this.title, this.type, this, &quot;' + document.getElementById(uidss).value + '/' + uidss.toString() + '&quot;)" title="' + mensajenom + '" type="' + urll + '" target="_blank">Descargar</a>';
 
                 } else {
-
-                    document.getElementById("notificattionn").style.display = "none";
-                    if (window.notification1Timeout) {
-                        clearTimeout(window.notificationTimeout);
-                    }
-                    window.notification1Timeout = setTimeout(function() {
-                        document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
-                        document.getElementById("notificattionn").style.display = "flow";
-                    }, 5);
-                    if (window.notificationTimeout) {
-                        clearTimeout(window.notificationTimeout);
-                    }
-                    window.notificationTimeout = setTimeout(function() {
-                        document.getElementById("notificattionn").style.display = "none";
-                    }, 5000);
+                    ponernotificacion("Contraseña incorrecta");
                     fileExists = false;
                     return fileName1;
                 }
             } catch (error) {
-                document.getElementById("notificattionn").style.display = "none";
-                if (window.notification1Timeout) {
-                    clearTimeout(window.notificationTimeout);
-                }
-                window.notification1Timeout = setTimeout(function() {
-                    document.getElementById("notificattionn").innerHTML = "Contraseña incorrecta";
-                    document.getElementById("notificattionn").style.display = "flow";
-                }, 5);
-                if (window.notificationTimeout) {
-                    clearTimeout(window.notificationTimeout);
-                }
-                window.notificationTimeout = setTimeout(function() {
-                    document.getElementById("notificattionn").style.display = "none";
-                }, 5000);
+                ponernotificacion("Contraseña incorrecta");
                 return fileName1;
             }
         }
@@ -1230,20 +1144,7 @@
                         });
                 })
                 .catch(function(error) {
-                    document.getElementById("notificattionn").style.display = "none";
-                    if (window.notification1Timeout) {
-                        clearTimeout(window.notificationTimeout);
-                    }
-                    window.notification1Timeout = setTimeout(function() {
-                        document.getElementById("notificattionn").innerHTML = "Este archivo a sido eliminado";
-                        document.getElementById("notificattionn").style.display = "flow";
-                    }, 5);
-                    if (window.notificationTimeout) {
-                        clearTimeout(window.notificationTimeout);
-                    }
-                    window.notificationTimeout = setTimeout(function() {
-                        document.getElementById("notificattionn").style.display = "none";
-                    }, 5000);
+                    ponernotificacion("Este archivo a sido eliminado");
                 })
             descargaaa.innerHTML = "Descargar"
         }
