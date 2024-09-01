@@ -117,6 +117,7 @@
         z-index: 1000;
         padding: 4px 0;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.30s ease-out;
     }
 
     .contextMenu li {
@@ -307,12 +308,12 @@
         </div>
         <div id="notificattionn" style="display:none;position: fixed; z-index: 5; background-color: rgb(70 70 70); padding: 4px; text-align: center; font-family: sans-serif; padding-inline: 14px; padding-block: 6px; border-radius: 7px; bottom: 20px; left: 15px; animation: 0.15s ease-out 0s 1 normal none running fade3In;"></div>
         <a id="button4bajo" onclick="bajar()">
-            <div style="align-items: center; background: #636363; border-radius: 50%; cursor: pointer; display: flex; height: 42px; justify-content: center; margin-bottom: 3px; margin-top: 3px; opacity: 0.9; width: 42px;"><svg height="20" viewbox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+            <div style="align-items: center; background: #646464; border-radius: 50%; cursor: pointer; display: flex; height: 42px; justify-content: center; margin-bottom: 3px; margin-top: 3px; opacity: 0.9; width: 42px;"><svg height="20" viewbox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3.8 6.7l5.7 5.7 5.7-5.7 1.6 1.6-7.3 7.2-7.3-7.2 1.6-1.6z" fill="#000000"></path>
                 </svg></div>
         </a>
         <form><label style="color: #aad937;">Nombre:</label>
-            <input id="conin" autocomplete="off" onchange="guardarYAutocompletar()" style="border: none; font-family: monospace; font-size: 15px; margin-top: 15px; max-width: 190px; outline: none; width: calc(100% - 70px);background-color: transparent;" type="text" placeholder="Escribe un nombre"/>
+            <input id="conin" autocomplete="off" onchange="guardarYAutocompletar()" style="border: none; font-family: monospace; font-size: 15px; margin-top: 15px; max-width: 190px; outline: none; width: calc(100% - 70px);background-color: transparent;" type="text" placeholder="Escribe un nombre" />
             <label id="respondever" style="display: none;margin-left: 15px;color: #AAD937;background: #2a2a2a;border-radius: 9px;padding: 2px;">Respondiendo a <span id="respondienn" value="">anónimo</span>
                 <svg onclick="borrarresponder()" width="24" height="24" fill="currentcolor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="cursor:pointer;display: inline-block;margin-bottom: -7px;margin-left: 3px;color: #ca6b6b;">
                     <path d="M12 2.25c-5.376 0-9.75 4.374-9.75 9.75s4.374 9.75 9.75 9.75 9.75-4.374 9.75-9.75S17.376 2.25 12 2.25Zm3.53 12.22a.75.75 0 1 1-1.06 1.06L12 13.06l-2.47 2.47a.75.75 0 0 1-1.06-1.06L10.94 12 8.47 9.53a.75.75 0 0 1 1.06-1.06L12 10.94l2.47-2.47a.75.75 0 0 1 1.06 1.06L13.06 12l2.47 2.47Z"></path>
@@ -356,6 +357,9 @@
         if (event.target.tagName === 'PRE') { // Verifica si el elemento clickeado es un <pre>
             event.preventDefault();
             clickedElement = event.target;
+            var newMenu = contextMenu1.cloneNode(true);
+            contextMenu1.parentNode.replaceChild(newMenu, contextMenu1);
+            contextMenu1 = newMenu;
             contextMenu1.style.display = 'block';
             contextMenu1.style.left = `${event.pageX}px`;
             contextMenu1.style.top = `${event.pageY}px`;
@@ -372,12 +376,21 @@
     });
 
     function menuuuu(thiss) {
-        contextMenu2.style.display = 'block';
-        var rect = thiss.getBoundingClientRect();
-        var menuWidth = contextMenu2.offsetWidth;
-        contextMenu2.style.left = `${rect.left - menuWidth + 6}px`;
-        contextMenu2.style.top = `${rect.bottom}px`;
-        clickedmenuac = thiss;
+        if (contextMenu2.style.display == 'block' && clickedmenuac == thiss) {
+            contextMenu2.style.display = 'none';
+            clickedmenuac = null;
+        } else {
+            var newMenu = contextMenu2.cloneNode(true);
+            contextMenu2.parentNode.replaceChild(newMenu, contextMenu2);
+            contextMenu2 = newMenu;
+            contextMenu2.style.display = 'block';
+            var rect = thiss.getBoundingClientRect();
+            var menuWidth = contextMenu2.offsetWidth;
+            contextMenu2.style.left = `${rect.left - menuWidth + 6}px`;
+            contextMenu2.style.top = `${rect.bottom}px`;
+            clickedmenuac = thiss;
+
+        }
     }
 
     function contextMenu2eli() {
@@ -731,9 +744,9 @@
                     var archielim = "";
                     if (keyparacon) {
                         if (element.ocultoono == "none") {
-                            mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border: none;font-family: monospace;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #000000;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text"><svg onclick="verifisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'))" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="cursor: pointer;background: #f2653085;color: black;border-radius: 9px;margin-top: 8px;margin-left: 4px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
+                            mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border: none;font-family: monospace;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #000000;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="password"><svg onclick="verifisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'))" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="cursor: pointer;background: #f2653085;color: black;border-radius: 9px;margin-top: 8px;margin-left: 4px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
                         } else {
-                            mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiarchiseguro(this.id,event,this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" style="border-radius: 5px;border: none;font-family: monospace;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #000000;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="text"><svg onclick="verifiarchisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="    cursor: pointer;background: #f2653085;color: black;border-radius: 9px;margin-top: 8px;margin-left: 4px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
+                            mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiarchiseguro(this.id,event,this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" style="border-radius: 5px;border: none;font-family: monospace;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #000000;outline: none;width: calc(100% - 70px);height: 25px;" placeholder="Escribe la contraseña" type="password"><svg onclick="verifiarchisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="    cursor: pointer;background: #f2653085;color: black;border-radius: 9px;margin-top: 8px;margin-left: 4px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
                             claveonoarchivo = "true";
                             archielim = carpetaaa + "/" + element.message + ".23";
                             ocultoono = "none";
