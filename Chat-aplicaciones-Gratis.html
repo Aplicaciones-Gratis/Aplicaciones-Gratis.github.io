@@ -503,6 +503,17 @@
         document.getElementById("respondever").style.display = "none";
     }
 
+    function cambiarvisib(idcamb, thiss) {
+        let inputElement = document.getElementById(idcamb);
+        if (inputElement.type === "text") {
+            inputElement.type = "password";
+            thiss.innerHTML = '<path d="M11.984 5.25c-3.653 0-7.401 2.115-10.351 6.344a.75.75 0 0 0-.013.833c2.267 3.548 5.964 6.323 10.364 6.323 4.352 0 8.125-2.783 10.397-6.34a.757.757 0 0 0 0-.819C20.104 8.076 16.303 5.25 11.984 5.25Z"></path> <path d="M12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"></path>';
+        } else {
+            inputElement.type = "text";
+            thiss.innerHTML = '<path d="M4.031 3 3 4.031l16.969 16.97L21 19.968 4.031 3Z"></path> <path d="m12.156 9.008 2.84 2.839a3.004 3.004 0 0 0-2.84-2.84Z"></path> <path d="m11.843 14.995-2.84-2.839a3.003 3.003 0 0 0 2.84 2.84Z"></path> <path d="M12 16.496a4.5 4.5 0 0 1-4.34-5.688L4.421 7.57C3.099 8.782 1.839 10.362.75 11.996c1.238 2.063 2.933 4.183 4.697 5.4 2.024 1.393 4.225 2.1 6.542 2.1a10.935 10.935 0 0 0 3.714-.647l-2.513-2.512c-.388.106-.788.16-1.19.16Z"></path> <path d="M12 7.5a4.5 4.5 0 0 1 4.34 5.688l3.312 3.312c1.367-1.23 2.629-2.886 3.598-4.5-1.237-2.036-2.949-4.151-4.743-5.382-2.05-1.405-4.243-2.118-6.519-2.118a10.45 10.45 0 0 0-3.666.67l2.49 2.49c.387-.107.786-.16 1.188-.16Z"></path>';
+        }
+    }
+
     function clicado() {
         if (document.getElementById('archivoo').value === "" || subiendoo === true) {
             var mensaje = txtMensaje.value;
@@ -772,9 +783,9 @@
                     var archielim = "";
                     if (keyparacon) {
                         if (element.ocultoono == "none") {
-                            mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-radius: 5px;border: none;font-family: monospace;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #000000;outline: none;padding-inline: 5px; width: 185px;height: 25px;" placeholder="Escribe la contraseña" type="password"><svg onclick="verifisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'))" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="cursor: pointer;background: #f2653085;color: black;border-radius: 9px;margin-top: 8px;margin-left: 4px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
+                            mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiseguro(this.id,event,this.getAttribute(\'nombr\'))" nombr="' + keey + '" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;border: none;font-family: monospace;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #000000;outline: none;padding-inline: 5px; width: 185px;height: 25px;color: #d3d3d3;" placeholder="Escribe la contraseña" type="password"><svg onclick="cambiarvisib(\'' + keyparacon + '\', this)" width="18" height="18" style="cursor: pointer; color: #bbbbbb; background: black; border-top-right-radius: 5px; border-bottom-right-radius: 5px; padding-inline: 5px; margin-top: 8px; width: 27px; height: 25px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M11.984 5.25c-3.653 0-7.401 2.115-10.351 6.344a.75.75 0 0 0-.013.833c2.267 3.548 5.964 6.323 10.364 6.323 4.352 0 8.125-2.783 10.397-6.34a.757.757 0 0 0 0-.819C20.104 8.076 16.303 5.25 11.984 5.25Z"></path><path d="M12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"></path></svg><svg onclick="verifisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'))" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="cursor: pointer;background: #f2653085;color: black;border-radius: 9px;margin-top: 8px;margin-left: 4px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
                         } else {
-                            mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiarchiseguro(this.id,event,this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" style="border-radius: 5px;border: none;font-family: monospace;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #000000;outline: none;padding-inline: 5px; width: 185px;height: 25px;" placeholder="Escribe la contraseña" type="password"><svg onclick="verifiarchisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="    cursor: pointer;background: #f2653085;color: black;border-radius: 9px;margin-top: 8px;margin-left: 4px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
+                            mensaje = '<div1 style="display: flex; align-items: center;"><input id="' + keyparacon + '" autocomplete="off" onkeypress="verifiarchiseguro(this.id,event,this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px;border: none;font-family: monospace;font-size: 15px;margin-top: 8px;max-width: 190px;background-color: #000000;outline: none;padding-inline: 5px; width: 185px;height: 25px;color: #d3d3d3;" placeholder="Escribe la contraseña" type="password"><svg onclick="cambiarvisib(\'' + keyparacon + '\', this)" width="18" height="18" style="cursor: pointer; color: #bbbbbb; background: black; border-top-right-radius: 5px; border-bottom-right-radius: 5px; padding-inline: 5px; margin-top: 8px; width: 27px; height: 25px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M11.984 5.25c-3.653 0-7.401 2.115-10.351 6.344a.75.75 0 0 0-.013.833c2.267 3.548 5.964 6.323 10.364 6.323 4.352 0 8.125-2.783 10.397-6.34a.757.757 0 0 0 0-.819C20.104 8.076 16.303 5.25 11.984 5.25Z"></path><path d="M12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z"></path></svg><svg onclick="verifiarchisegurofuncion(this.getAttribute(\'idedeeli\'), this.getAttribute(\'nombr\'), this.getAttribute(\'mensaje\'), this.getAttribute(\'urll\'),)" urll="' + urll + '"  mensaje="' + mensaje + '" nombr="' + keey + '" idedeeli="' + keyparacon + '" width="25" height="25" style="cursor: pointer;background: #f2653085;color: black;border-radius: 9px;margin-top: 8px;margin-left: 4px;" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"></path></svg></div1>'
                             claveonoarchivo = "true";
                             archielim = carpetaaa + "/" + element.message + ".23";
                             ocultoono = "none";
@@ -932,9 +943,13 @@
     function hecv(cha, archieli, keyparacon, contra, claveonoarchivo) {
         if (claveonoarchivo == "true") {
             var storageRef = firebase.storage().ref(contra + "/" + keyparacon + "/" + archieli);
-            storageRef.delete().then(function() {
+            storageRef.delete()
+            .then(function() {
                 firebase.database().ref().child(chatonooo + '/' + cha).remove();
             })
+            .catch((error) => {
+                ponernotificacion("Ingresa la contraseña antes de eliminar");
+            });
         } else {
             if (claveonoarchivo !== "solocon") {
                 if (archieli != "") {
@@ -944,11 +959,15 @@
             }
             if (keyparacon != "undefined") {
                 var ref = firebase.database().ref().child('seguro/' + contra + '/' + keyparacon.toString());
-                ref.once('value').then(function(snapshot) {
+                ref.once('value')
+                .then(function(snapshot) {
                     if (snapshot.exists()) {
                         ref.remove();
                         firebase.database().ref().child(chatonooo + '/' + cha).remove();
                     }
+                })
+                .catch((error) => {
+                    ponernotificacion("Contraseña incorrecta");
                 });
 
             } else {
@@ -958,7 +977,8 @@
                     var contraseña = prompt("Por favor, ingresa la contraseña:");
                     if ((contraseña !== null) && (contraseña.trim()).length !== 0) {
                         var refb2 = firebase.database().ref().child('seguro/' + contraseña + '/' + contra.toString());
-                        refb2.once('value').then(function(snapshot) {
+                        refb2.once('value')
+                        .then(function(snapshot) {
                             if (snapshot.exists()) {
                                 if (archieli != "") {
                                     var storageRef = firebase.storage().ref(archieli);
@@ -969,6 +989,9 @@
                             } else {
                                 ponernotificacion("Contraseña incorrecta");
                             }
+                        })
+                        .catch((error) => {
+                            ponernotificacion("Contraseña incorrecta");
                         });
                     }
                 }
