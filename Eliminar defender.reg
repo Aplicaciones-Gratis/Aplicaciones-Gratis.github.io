@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+; Este archivo elimina las claves relacionadas con Windows Defender en el menú contextual
+; Asegúrate de anotar previamente los valores originales si deseas revertir los cambios
+
+[HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\EPP]
+@=""
+[HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\EPP]
+@=""
+[HKEY_CLASSES_ROOT\Drive\shellex\ContextMenuHandlers\EPP]
+@=""
