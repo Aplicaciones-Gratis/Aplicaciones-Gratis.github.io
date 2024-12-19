@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\*\shell\Editar]
+@="Editar"
+"Icon"="\"C:\\Program Files\\Sublime Text\\sublime_text.exe\",0"
+
+[HKEY_CLASSES_ROOT\*\shell\Editar\command]
+@="\"C:\\Program Files\\Sublime Text\\sublime_text.exe\" \"%1\""
+
+[HKEY_CLASSES_ROOT\*\shell\Editar]
+"AppliesTo"="System.FileExtension:=\".txt\" OR System.FileExtension:=\".log\" OR System.FileExtension:=\".csv\" OR System.FileExtension:=\".json\" OR System.FileExtension:=\".xml\" OR System.FileExtension:=\".md\" OR System.FileExtension:=\".html\" OR System.FileExtension:=\".htm\" OR System.FileExtension:=\".css\" OR System.FileExtension:=\".js\" OR System.FileExtension:=\".ts\" OR System.FileExtension:=\".bat\" OR System.FileExtension:=\".cmd\" OR System.FileExtension:=\".sh\" OR System.FileExtension:=\".reg\" OR System.FileExtension:=\".ini\" OR System.FileExtension:=\".yml\" OR System.FileExtension:=\".yaml\" OR System.FileExtension:=\".conf\" OR System.FileExtension:=\".py\" OR System.FileExtension:=\".java\" OR System.FileExtension:=\".c\" OR System.FileExtension:=\".cpp\" OR System.FileExtension:=\".h\" OR System.FileExtension:=\".php\" OR System.FileExtension:=\".rb\" OR System.FileName:<>\"*.*\""
