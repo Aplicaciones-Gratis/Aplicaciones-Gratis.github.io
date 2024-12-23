@@ -30,3 +30,7 @@ Windows Registry Editor Version 5.00
 [-HKEY_CLASSES_ROOT\Excel.Sheet.8\shell\Print]
 [-HKEY_CLASSES_ROOT\Excel.Sheet.12\shell\Print]
 [-HKEY_CLASSES_ROOT\Excel.OpenDocumentSpreadsheet.12\shell\Print]
+[-HKEY_CLASSES_ROOT\regfile\shell\print]
+[-HKEY_CLASSES_ROOT\batfile\shell\print]
+[-HKEY_CLASSES_ROOT\cmdfile\shell\print]
+[-HKEY_CLASSES_ROOT\txtfile\shell\print]
