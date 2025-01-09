@@ -97,6 +97,8 @@ Windows Registry Editor Version 5.00
 [-HKEY_CLASSES_ROOT\batfile\shell\print]
 [-HKEY_CLASSES_ROOT\cmdfile\shell\print]
 [-HKEY_CLASSES_ROOT\txtfile\shell\print]
+[-HKEY_CLASSES_ROOT\Directory\Background\shell\AnyCode]
+[-HKEY_CLASSES_ROOT\Directory\shell\AnyCode]
 [-HKEY_CLASSES_ROOT\SystemFileAssociations\image\shell\edit]
 [-HKEY_CLASSES_ROOT\SystemFileAssociations\text\shell\edit]
 [-HKEY_CLASSES_ROOT\wordxmlfile\shell\Edit]
