@@ -3,7 +3,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\*\shell\EditarVSCM]
 @="Editar"
 "Icon"="\"C:\\Program Files\\VSCodium\\VSCodium.exe\",0"
-"AppliesTo"="System.FileExtension:=\".json\" OR System.FileExtension:=\".xml\" OR System.FileExtension:=\".css\" OR System.FileExtension:=\".html\" OR System.FileExtension:=\".htm\" OR System.FileExtension:=\".js\" OR System.FileExtension:=\".php\""
+"AppliesTo"="System.FileExtension:=\".json\" OR System.FileExtension:=\".xml\" OR System.FileExtension:=\".css\" OR System.FileExtension:=\".html\" OR System.FileExtension:=\".htm\" OR System.FileExtension:=\".js\" OR System.FileExtension:=\".php\"" OR System.FileExtension:=\".svg\""
 
 [HKEY_CLASSES_ROOT\*\shell\EditarVSCM\command]
 @="\"C:\\Program Files\\VSCodium\\VSCodium.exe\" \"%1\""
